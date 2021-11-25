@@ -12,11 +12,13 @@ def receive_account_password(conn):
     acc = conn.recv(1024).decode('utf8')
     psw = conn.recv(1024).decode('utf8')
     return acc, psw
-def get_registered():
+
+def get_registered():                           #lấy dữ liệu tài khoản từ database
     f = open("data.txt", 'r')
-    res_list = f.readlines()
+    res_list = f.readlines()                    
     f.close()
-    return res_list
+    return res_list                             #trả về list data
+
 def check_account_password(account, password):
     list_account = get_registered()
     for x in list_account:
