@@ -382,8 +382,6 @@ def ConnectToDB():
     return cursor
 
 def handle_client(conn, addr):
-
-     
     while True:
 
         option = conn.recv(1024).decode(FORMAT)
@@ -523,7 +521,7 @@ class StartPage(tk.Frame):
         self.entry_user = tk.Entry(self,width=30,bg='light yellow')
         self.entry_pswd = tk.Entry(self,width=30,bg='light yellow')
 
-        button_log = tk.Button(self,text="LOG IN",bg="#20639b",fg='floral white',command=lambda: controller.logIn(self))
+        button_log = tk.Button(self,text="LOGIN",bg="#20639b",fg='floral white',command=lambda: controller.logIn(self))
 
         button_log.grid(row=4,column=1)
         button_log.configure(width=10)
