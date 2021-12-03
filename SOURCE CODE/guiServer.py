@@ -20,10 +20,14 @@ def login():
     if(password==""):
         messagebox.showinfo(title="ALERT",message="Please type a password")
         return
-    
-    messagebox.showinfo(title="ALERT",message="Login successfully") #Dùng socket check nhé
-    loginPage.withdraw()
-    MainPage()
+    if(username=="admin" and password=="admin"):
+        messagebox.showinfo(title="ALERT",message="Login successfully") 
+        loginPage.withdraw()
+        MainPage()
+        return
+    else:
+        messagebox.showinfo(title="ALERT",message="Incorrect username or password")
+        return
 def LoginPage():
     global loginPage
     loginPage=Toplevel()
@@ -34,6 +38,7 @@ def LoginPage():
     lbl_login=tk.Label(loginPage,text="LOGIN",font=("Helvetica", 13,"bold"),fg='black')
     lbl_username=tk.Label(loginPage,text="Username:",font=("Helvetica", 13,"bold"),fg='black')
     lbl_password=tk.Label(loginPage,text="Password:",font=("Helvetica", 13,"bold"),fg='black')
+    loginPage.bind('<Return>',lambda e:login()) #Bấm enter
     blank=tk.Label(loginPage,text="")
     global input_user_login
     global input_pass_login

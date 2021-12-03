@@ -23,8 +23,9 @@ input_ip.pack()
 lbl_blank.pack()
 def ConnectServer():
     app.withdraw()
-    LoginPage() #Có socket xử lý tiếp
+    LoginPage() #Có socket để check kết nối
 but_connect=tk.Button(app,text="CONNECT",width=20,command=ConnectServer)
+app.bind('<Return>',lambda e:ConnectServer()) #Bấm enter
 but_connect.pack()
 def sign_up_button():      
     loginPage.withdraw()
@@ -38,7 +39,7 @@ def login():
     if(password==""):
         messagebox.showinfo(title="ALERT",message="Please type a password")
         return
-    messagebox.showinfo(title="ALERT",message="Login successfully") #Dùng socket check nhé
+    messagebox.showinfo(title="ALERT",message="Login successfully") #Dùng socket check tài khoản mật khẩu
     loginPage.withdraw()
     MainPage()
 def LoginPage():
@@ -58,6 +59,7 @@ def LoginPage():
     input_pass_login=tk.Entry(loginPage,width=30,show="*",font=("Helvetica", 10))
     but_log=tk.Button(loginPage,text="LOGIN",width=10,command=login) #Cần socket để xử lý tiếp
     but_reg=tk.Button(loginPage,text="Create new account",width=15,command=sign_up_button)
+    loginPage.bind('<Return>',lambda e:login()) #Bấm enter
     lbl_welcome.grid(column=1,row=0)
     lbl_login.grid(column=1,row=1)
     lbl_username.grid(column=0,row=2)
@@ -85,6 +87,7 @@ def register():  #Socket đăng ký
         messagebox.showinfo(title="ALERT",message="The password confirmation does not match")
         return
     messagebox.showinfo(title="ALERT",message="Your account has been created successfully") #Dùng socket check nhé
+    back_to_login()
 def RegistrationPage():
     global registrationPage
     registrationPage=Toplevel()
@@ -104,6 +107,7 @@ def RegistrationPage():
     input_copass_signup=tk.Entry(registrationPage,width=30,font=("Helvetica", 10),show="*")
     but_register=tk.Button(registrationPage,text="REGISTER",width=20,command=register) #Socket
     but_backToLogin=tk.Button(registrationPage,text="Back to login",width=10,command=back_to_login)
+    registrationPage.bind('<Return>',lambda e:register()) #Bấm enter
     lbl_login.grid(column=1,row=1)
     lbl_username.grid(column=0,row=2)
     lbl_password.grid(column=0,row=3)
