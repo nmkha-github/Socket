@@ -11,36 +11,42 @@ def center(app,width,height): #Center app screen
     y=(screen_height/2) - (height/2)
     app.geometry(f'{width}x{height}+{int(x)}+{int(y)}')
     return app
-app = Tk()
-app.title('COVID 19 VIETNAM INFORMATION')
-app=center(app,500,140)
-#app.geometry('500x100')
-lbl_welcome=tk.Label(app,text="Enter server IP address: ",font=("Helvetica", 13,"bold"),fg='black')
-lbl_blank=tk.Label(app,text="")
-input_ip = tk.Entry(app, width = 50)
-lbl_enterPort=tk.Label(app,text="Enter Port: ",font=("Helvetica", 13,"bold"),fg='black')
-input_port = tk.Entry(app, width = 50)
-lbl_welcome.pack()
-input_ip.pack()
-lbl_enterPort.pack()
-input_port.pack()
-lbl_blank.pack()
 def ConnectServer():
     ip=input_ip.get()
     port=input_port.get()
     if(ip==""):
-        messagebox.showinfo(title="ALERT",message="Please type server IP address")
+        lbl_alert["text"]="Please type server IP address"
         return
     if(port==""):
-        messagebox.showinfo(title="ALERT",message="Please type the port")
+        lbl_alert["text"]="Please type the port"
         return
-    messagebox.showinfo(title="ALERT",message="Connect successfully") #Dùng socket check 
-    #messagebox.showinfo(title="ALERT",message="Failed to connect, please type again.") #IP Port ko đúng
+    lbl_alert["text"]="Connect successfully" #Dùng socket check 
+    #lbl_alert["text"]="Failed to connect, please type again." #IP Port ko đúng
     app.withdraw()
     LoginPage() #Có socket để check kết nối
-but_connect=tk.Button(app,text="CONNECT",width=20,command=ConnectServer)
-app.bind('<Return>',lambda e:ConnectServer()) #Bấm enter
-but_connect.pack()
+def runClient():
+    global app
+    app = Tk()
+    app.title('COVID 19 VIETNAM INFORMATION')
+    app=center(app,500,170)
+    #app.geometry('500x100')
+    lbl_welcome=tk.Label(app,text="Enter server IP address: ",font=("Helvetica", 13,"bold"),fg='black')
+    global lbl_alert
+    lbl_alert=tk.Label(app,text="",font=("Helvetica", 10,"bold"),fg='red')
+    global input_ip
+    global input_port
+    input_ip = tk.Entry(app, width = 50)
+    lbl_enterPort=tk.Label(app,text="Enter Port: ",font=("Helvetica", 13,"bold"),fg='black')
+    input_port = tk.Entry(app, width = 50)
+    lbl_welcome.pack()
+    input_ip.pack()
+    lbl_enterPort.pack()
+    input_port.pack(pady=5)
+    but_connect=tk.Button(app,text="CONNECT",width=20,command=ConnectServer)
+    app.bind('<Return>',lambda e:ConnectServer()) #Bấm enter
+    but_connect.pack(pady=6)
+    lbl_alert.pack()
+    app.mainloop()
 def sign_up_button():      
     loginPage.withdraw()
     RegistrationPage()
@@ -48,13 +54,13 @@ def login():
     username=input_user_login.get()
     password=input_pass_login.get()
     if(username==""):
-        messagebox.showinfo(title="ALERT",message="Please type a username")
+        lbl_loginalert["text"]="Please type a username"
         return
     if(password==""):
-        messagebox.showinfo(title="ALERT",message="Please type a password")
+        lbl_loginalert["text"]="Please type a password"
         return
-    messagebox.showinfo(title="ALERT",message="Login successfully") #Dùng socket check tài khoản mật khẩu
-    #messagebox.showinfo(title="ALERT",message="Incorrect username or password") #Dùng socket check tài khoản mật khẩu
+    lbl_loginalert["text"]="Login successfully" #Dùng socket check tài khoản mật khẩu
+    #lbl_loginalert["text"]="Incorrect username or password") #Dùng socket check tài khoản mật khẩu
     loginPage.withdraw()
     MainPage()
 def LoginPage():
@@ -67,7 +73,8 @@ def LoginPage():
     lbl_login=tk.Label(loginPage,text="LOGIN",font=("Helvetica", 13,"bold"),fg='black')
     lbl_username=tk.Label(loginPage,text="Username:",font=("Helvetica", 13,"bold"),fg='black')
     lbl_password=tk.Label(loginPage,text="Password:",font=("Helvetica", 13,"bold"),fg='black')
-    blank=tk.Label(loginPage,text="")
+    global lbl_loginalert
+    lbl_loginalert=tk.Label(loginPage,text="",font=("Helvetica", 10,"bold"),fg='red')
     global input_user_login
     global input_pass_login
     input_user_login=tk.Entry(loginPage,width=30,font=("Helvetica", 10))
@@ -81,7 +88,7 @@ def LoginPage():
     lbl_password.grid(column=0,row=3)
     input_user_login.grid(column=1,row=2)
     input_pass_login.grid(column=1,row=3)
-    blank.grid(row=4,column=1)
+    lbl_loginalert.grid(row=4,column=1)
     but_reg.grid(row=5,column=0,padx=10)
     but_log.grid(row=5,column=1)
     loginPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
@@ -93,27 +100,31 @@ def register():  #Socket đăng ký
     password=input_pass_signup.get()
     confirmpassword=input_copass_signup.get()
     if(username==""):
-        messagebox.showinfo(title="ALERT",message="Please type a username")
+        lbl_registeralert["text"]="Please type a username"
         return
     if(password==""):
-        messagebox.showinfo(title="ALERT",message="Please type a password")
+        lbl_registeralert["text"]="Please type a password"
+        return
+    if(confirmpassword==""):
+        lbl_registeralert["text"]="Please type your password again"
         return
     if(password!=confirmpassword):
-        messagebox.showinfo(title="ALERT",message="The password confirmation does not match")
-        return
-    messagebox.showinfo(title="ALERT",message="Your account has been created successfully") #Dùng socket check nhé
-    back_to_login()
+       lbl_registeralert["text"]="The password confirmation does not match"
+       return
+    lbl_registeralert["text"]="Your account has been created successfully" #Dùng socket check nhé
+    #lbl_registeralert["text"]="This username is already taken" #Đăng ký thất bại
 def RegistrationPage():
     global registrationPage
     registrationPage=Toplevel()
     registrationPage.title("COVID 19 VIETNAM INFORMATION")
-    registrationPage=center(registrationPage,400,180)
+    registrationPage=center(registrationPage,450,180)
     #registrationPage.geometry("400x180")
     lbl_login=tk.Label(registrationPage,text="REGISTER",font=("Helvetica", 13,"bold"),fg='black')
     lbl_username=tk.Label(registrationPage,text="Username:",font=("Helvetica", 13,"bold"),fg='black')
     lbl_password=tk.Label(registrationPage,text="Password:",font=("Helvetica", 13,"bold"),fg='black')
     lbl_repassword=tk.Label(registrationPage,text="Confirm password:",font=("Helvetica", 13,"bold"),fg='black')
-    blank=tk.Label(registrationPage,text="")
+    global lbl_registeralert
+    lbl_registeralert=tk.Label(registrationPage,text="",font=("Helvetica", 10,"bold"),fg='red')
     global input_user_signup
     global input_pass_signup
     global input_copass_signup
@@ -130,7 +141,7 @@ def RegistrationPage():
     input_user_signup.grid(column=1,row=2)
     input_pass_signup.grid(column=1,row=3)
     input_copass_signup.grid(column=1,row=4)
-    blank.grid(column=1,row=5)
+    lbl_registeralert.grid(column=1,row=5)
     but_backToLogin.grid(row=6,column=0)
     but_register.grid(row=6,column=1)
     registrationPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
@@ -158,5 +169,4 @@ def MainPage():
     input_date.grid(column=1,row=3,pady=4)
     but_search.grid(column=1,row=4,pady=10)
     lbl_result.grid(column=0,row=5,padx=10)
-
-app.mainloop()
+runClient()

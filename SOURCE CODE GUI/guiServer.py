@@ -70,12 +70,11 @@ def MainPage():
     lbl_ipserver.grid(column=1,row=1)
     lbl_port.grid(column=1,row=2)
     lbl_connecteduser.grid(column=1,row=3)
-    textShowUser = tkscrolled.ScrolledText(window, font=("Arial", 10), bg = "white", height = 20, width = 50, wrap='word')
-
+    connecteduser = tkscrolled.ScrolledText(mainPage, font=("Helvetica", 10), bg = "white", height = 20, width = 50, wrap='word')
+    connecteduser.grid(row=4,column=1,pady=10)
 app = Tk()
 app.title('COVID 19 SERVER MANAGEMENT')
 app=center(app,500,100)
 app.withdraw()
 MainPage() #Có socket xử lý tiếp
-
 app.mainloop()
