@@ -12,7 +12,7 @@ def center(app,width,height): #Center app screen
     app.geometry(f'{width}x{height}+{int(x)}+{int(y)}')
     return app
 app = Tk()
-app.title('COVID 19 INFORMATION')
+app.title('COVID 19 VIETNAM INFORMATION')
 app=center(app,500,100)
 #app.geometry('500x100')
 lbl_welcome=tk.Label(app,text="Enter server IP address: ",font=("Helvetica", 13,"bold"),fg='black')
@@ -45,10 +45,10 @@ def login():
 def LoginPage():
     global loginPage
     loginPage=Toplevel()
-    loginPage.title("COVID 19 INFORMATION")
+    loginPage.title("COVID 19 VIETNAM INFORMATION")
     loginPage=center(loginPage,420,180)
     #loginPage.geometry("320x200")
-    lbl_welcome=tk.Label(loginPage,text="COVID 19 INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
+    lbl_welcome=tk.Label(loginPage,text="COVID 19 VIETNAM INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
     lbl_login=tk.Label(loginPage,text="LOGIN",font=("Helvetica", 13,"bold"),fg='black')
     lbl_username=tk.Label(loginPage,text="Username:",font=("Helvetica", 13,"bold"),fg='black')
     lbl_password=tk.Label(loginPage,text="Password:",font=("Helvetica", 13,"bold"),fg='black')
@@ -91,7 +91,7 @@ def register():  #Socket đăng ký
 def RegistrationPage():
     global registrationPage
     registrationPage=Toplevel()
-    registrationPage.title("COVID 19 INFORMATION")
+    registrationPage.title("COVID 19 VIETNAM INFORMATION")
     registrationPage=center(registrationPage,400,180)
     #registrationPage.geometry("400x180")
     lbl_login=tk.Label(registrationPage,text="REGISTER",font=("Helvetica", 13,"bold"),fg='black')
@@ -122,6 +122,22 @@ def RegistrationPage():
 def MainPage():
     global mainPage
     mainPage=Toplevel()
-    mainPage.title("COVID 19 INFORMATION")
+    mainPage.title("COVID 19 VIETNAM INFORMATION")
     mainPage=center(mainPage,400,500)
+    # dataTree=ttk.Treeview(mainPage)
+    # dataTree["column"]={""}
+    lbl_welcome=tk.Label(mainPage,text="COVID 19 VIETNAM INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
+    blank=tk.Label(loginPage,text="")
+    lbl_province=tk.Label(mainPage,text="Province: ",font=("Helvetica", 10,"bold"),fg='black')
+    input_province=tk.Entry(mainPage,width=40,font=("Helvetica", 10))
+    lbl_date=tk.Label(mainPage,text="Date: ",font=("Helvetica", 10,"bold"),fg='black')
+    format_date = StringVar(mainPage)
+    format_date.set("dd/mm/yyyy")
+    input_date=tk.Entry(mainPage,width=40,font=("Helvetica", 10),textvariable=format_date)
+    but_search=tk.Button(registrationPage,text="Back to login",width=10)
+    lbl_welcome.grid(column=1,row=0,pady=20)
+    lbl_province.grid(column=0,row=2,pady=4)
+    input_province.grid(column=1,row=2,pady=4)
+    lbl_date.grid(column=0,row=3,pady=4)
+    input_date.grid(column=1,row=3,pady=4)
 app.mainloop()

@@ -3,7 +3,7 @@ import pyodbc
 #print(pyodbc.drivers())
 # type in your DATABASE info here 
 
-SERVER = 'LAPTOP-76D6AFE8\SQLEXPRESS'   # Sửa dòng này tùy theo máy
+SERVER = 'DESKTOP-0L6CM0C\SQLEXPRESS'   # Sửa dòng này tùy theo máy
 USER = 'socket'                         # Sửa dòng này tùy theo account tạo
 PASSWORD = '123'                        # Sửa dòng này tùy theo account tạo
 DATABASE = 'Socket_Account'             # import database vào
@@ -29,3 +29,5 @@ def check_Account(username, password):  #kiểm tra tài khoản mật khẩu
             else:
                 return 'WRONG PASSWORD'
     return 'ACCOUNT IS NOT EXIST'
+
+print(f'{check_Account("huyasd","1234")}')
