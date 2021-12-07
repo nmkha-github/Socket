@@ -3,6 +3,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import *
+import tkinter.scrolledtext as tkscrolled
 from PIL import ImageTk, Image  #Install Pillow 
 IPSERVER="192.168.78.1"
 PORT=8000
@@ -64,9 +65,13 @@ def MainPage():
     lbl_welcome=tk.Label(mainPage,text="COVID 19 SERVER MANAGEMENT",font=("Helvetica", 13,"bold"),fg='black')
     lbl_ipserver=tk.Label(mainPage,text=f'SERVER IP: {IPSERVER}',font=("Helvetica", 13,"bold"),fg='black')
     lbl_port=tk.Label(mainPage,text=f'PORT: {PORT}',font=("Helvetica", 13,"bold"),fg='black')    
-    
-    lbl_welcome.pack()
-    lbl_ipserver.pack()
+    lbl_connecteduser=tk.Label(mainPage,text="Connected users: ",font=("Helvetica", 13,"bold"),fg='black')
+    lbl_welcome.grid(column=1,row=0,padx=60)
+    lbl_ipserver.grid(column=1,row=1)
+    lbl_port.grid(column=1,row=2)
+    lbl_connecteduser.grid(column=1,row=3)
+    textShowUser = tkscrolled.ScrolledText(window, font=("Arial", 10), bg = "white", height = 20, width = 50, wrap='word')
+
 app = Tk()
 app.title('COVID 19 SERVER MANAGEMENT')
 app=center(app,500,100)

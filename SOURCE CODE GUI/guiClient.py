@@ -13,15 +13,29 @@ def center(app,width,height): #Center app screen
     return app
 app = Tk()
 app.title('COVID 19 VIETNAM INFORMATION')
-app=center(app,500,100)
+app=center(app,500,140)
 #app.geometry('500x100')
 lbl_welcome=tk.Label(app,text="Enter server IP address: ",font=("Helvetica", 13,"bold"),fg='black')
 lbl_blank=tk.Label(app,text="")
 input_ip = tk.Entry(app, width = 50)
+lbl_enterPort=tk.Label(app,text="Enter Port: ",font=("Helvetica", 13,"bold"),fg='black')
+input_port = tk.Entry(app, width = 50)
 lbl_welcome.pack()
 input_ip.pack()
+lbl_enterPort.pack()
+input_port.pack()
 lbl_blank.pack()
 def ConnectServer():
+    ip=input_ip.get()
+    port=input_port.get()
+    if(ip==""):
+        messagebox.showinfo(title="ALERT",message="Please type server IP address")
+        return
+    if(port==""):
+        messagebox.showinfo(title="ALERT",message="Please type the port")
+        return
+    messagebox.showinfo(title="ALERT",message="Connect successfully") #Dùng socket check 
+    #messagebox.showinfo(title="ALERT",message="Failed to connect, please type again.") #IP Port ko đúng
     app.withdraw()
     LoginPage() #Có socket để check kết nối
 but_connect=tk.Button(app,text="CONNECT",width=20,command=ConnectServer)
@@ -40,6 +54,7 @@ def login():
         messagebox.showinfo(title="ALERT",message="Please type a password")
         return
     messagebox.showinfo(title="ALERT",message="Login successfully") #Dùng socket check tài khoản mật khẩu
+    #messagebox.showinfo(title="ALERT",message="Incorrect username or password") #Dùng socket check tài khoản mật khẩu
     loginPage.withdraw()
     MainPage()
 def LoginPage():
@@ -67,7 +82,7 @@ def LoginPage():
     input_user_login.grid(column=1,row=2)
     input_pass_login.grid(column=1,row=3)
     blank.grid(row=4,column=1)
-    but_reg.grid(row=5,column=0)
+    but_reg.grid(row=5,column=0,padx=10)
     but_log.grid(row=5,column=1)
     loginPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
 def back_to_login():
@@ -134,10 +149,14 @@ def MainPage():
     format_date = StringVar(mainPage)
     format_date.set("dd/mm/yyyy")
     input_date=tk.Entry(mainPage,width=40,font=("Helvetica", 10),textvariable=format_date)
-    but_search=tk.Button(registrationPage,text="Back to login",width=10)
+    but_search=tk.Button(mainPage,text="Search",width=10)
+    lbl_result=tk.Label(mainPage,text="Result",font=("Helvetica", 13,"bold"),fg='black')
     lbl_welcome.grid(column=1,row=0,pady=20)
     lbl_province.grid(column=0,row=2,pady=4)
     input_province.grid(column=1,row=2,pady=4)
     lbl_date.grid(column=0,row=3,pady=4)
     input_date.grid(column=1,row=3,pady=4)
+    but_search.grid(column=1,row=4,pady=10)
+    lbl_result.grid(column=0,row=5,padx=10)
+
 app.mainloop()
