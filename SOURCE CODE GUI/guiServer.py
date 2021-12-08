@@ -62,6 +62,7 @@ def MainPage():
     mainPage=Toplevel()
     mainPage.title("COVID 19 SERVER MANAGEMENT")
     mainPage=center(mainPage,400,500)
+    mainPage.resizable(width=False,height=False)
     lbl_welcome=tk.Label(mainPage,text="COVID 19 SERVER MANAGEMENT",font=("Helvetica", 13,"bold"),fg='black')
     lbl_ipserver=tk.Label(mainPage,text=f'SERVER IP: {IPSERVER}',font=("Helvetica", 13,"bold"),fg='black')
     lbl_port=tk.Label(mainPage,text=f'PORT: {PORT}',font=("Helvetica", 13,"bold"),fg='black')    
@@ -76,12 +77,12 @@ def MainPage():
     connecteduser.insert(END,"Hello")  #Hàm insert text
     #connecteduser.delete(1.0,END) #Xóa tất cả các text. Lúc refresh hay gì thì xài
     connecteduser.configure(state ='disabled') #Hàm này không cho nhập
-    
 def runServer():
     global app
     app = Tk()
     app.title('COVID 19 SERVER MANAGEMENT')
     app=center(app,500,100)
+    app.resizable(width=False,height=False)
     app.withdraw()
     MainPage() #Có socket xử lý tiếp
     app.mainloop()
