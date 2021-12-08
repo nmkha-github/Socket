@@ -30,7 +30,7 @@ def handle_client(conn, addr):
     show("Client's addr: (" + addr[0] + ", " + str(addr[1]) + "), status: ")
     #status = check_account()
     status = "ACCEPTED"
-    show(status)
+    show(status + '\n')
 
 # xử lí đa luồng
 print("Server: ", s.getsockname())
