@@ -66,15 +66,23 @@ def MainPage():
     lbl_ipserver=tk.Label(mainPage,text=f'SERVER IP: {IPSERVER}',font=("Helvetica", 13,"bold"),fg='black')
     lbl_port=tk.Label(mainPage,text=f'PORT: {PORT}',font=("Helvetica", 13,"bold"),fg='black')    
     lbl_connecteduser=tk.Label(mainPage,text="Connected users: ",font=("Helvetica", 13,"bold"),fg='black')
-    lbl_welcome.grid(column=1,row=0,padx=60)
-    lbl_ipserver.grid(column=1,row=1)
-    lbl_port.grid(column=1,row=2)
+    lbl_welcome.grid(column=1,row=0,padx=60,pady=10)
+    lbl_ipserver.grid(column=1,row=1,sticky='w',padx=10)
+    lbl_port.grid(column=1,row=2,sticky="w",padx=10)
     lbl_connecteduser.grid(column=1,row=3)
-    connecteduser = tkscrolled.ScrolledText(mainPage, font=("Helvetica", 10), bg = "white", height = 20, width = 50, wrap='word')
+    global connecteduser
+    connecteduser = tkscrolled.ScrolledText(mainPage, font=("Helvetica", 13), bg = "white", height = 13, width = 40)
     connecteduser.grid(row=4,column=1,pady=10)
-app = Tk()
-app.title('COVID 19 SERVER MANAGEMENT')
-app=center(app,500,100)
-app.withdraw()
-MainPage() #Có socket xử lý tiếp
-app.mainloop()
+    connecteduser.insert(END,"Hello")  #Hàm insert text
+    #connecteduser.delete(1.0,END) #Xóa tất cả các text. Lúc refresh hay gì thì xài
+    connecteduser.configure(state ='disabled') #Hàm này không cho nhập
+    
+def runServer():
+    global app
+    app = Tk()
+    app.title('COVID 19 SERVER MANAGEMENT')
+    app=center(app,500,100)
+    app.withdraw()
+    MainPage() #Có socket xử lý tiếp
+    app.mainloop()
+runServer()

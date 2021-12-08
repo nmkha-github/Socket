@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import *
 from PIL import ImageTk, Image  #Install Pillow 
+from datetime import datetime,timedelta
 def center(app,width,height): #Center app screen
     screen_width=app.winfo_screenwidth()
     screen_height=app.winfo_screenheight()-200
@@ -15,10 +16,10 @@ def ConnectServer():
     ip=input_ip.get()
     port=input_port.get()
     if(ip==""):
-        lbl_alert["text"]="Please type server IP address"
+        lbl_alert["text"]="Please type a server IP address"
         return
     if(port==""):
-        lbl_alert["text"]="Please type the port"
+        lbl_alert["text"]="Please type a port"
         return
     lbl_alert["text"]="Connect successfully" #Dùng socket check 
     #lbl_alert["text"]="Failed to connect, please type again." #IP Port ko đúng
@@ -51,7 +52,8 @@ def sign_up_button():
     loginPage.withdraw()
     RegistrationPage()
 def login():
-    username=input_user_login.get()
+    global username
+    username=input_user_login.get() #Để tạo Hi, username trong màn hình chính
     password=input_pass_login.get()
     if(username==""):
         lbl_loginalert["text"]="Please type a username"
@@ -145,28 +147,66 @@ def RegistrationPage():
     but_backToLogin.grid(row=6,column=0)
     but_register.grid(row=6,column=1)
     registrationPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
+def Search(): #Dùng socket để chỉnh
+    lbl_resultprovince["text"]="Ho Chi Minh" #Chỉnh dữ liệu
+    lbl_resultnewcases["text"]="965"
+    lbl_resultdeaths["text"]="2132"
+    lbl_resulttotalcases["text"]="12312"
+def logOut():
+    #Dùng socket để logout
+    mainPage.withdraw()
+    LoginPage()
 def MainPage():
     global mainPage
     mainPage=Toplevel()
     mainPage.title("COVID 19 VIETNAM INFORMATION")
-    mainPage=center(mainPage,400,500)
-    # dataTree=ttk.Treeview(mainPage)
-    # dataTree["column"]={""}
+    mainPage=center(mainPage,430,500)
+    lbl_hisuer=tk.Label(mainPage,text=f'Hi, {username}',font=("Helvetica", 10,"bold"),fg='black')
     lbl_welcome=tk.Label(mainPage,text="COVID 19 VIETNAM INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
     blank=tk.Label(loginPage,text="")
+    global input_province
     lbl_province=tk.Label(mainPage,text="Province: ",font=("Helvetica", 10,"bold"),fg='black')
     input_province=tk.Entry(mainPage,width=40,font=("Helvetica", 10))
     lbl_date=tk.Label(mainPage,text="Date: ",font=("Helvetica", 10,"bold"),fg='black')
-    format_date = StringVar(mainPage)
-    format_date.set("dd/mm/yyyy")
-    input_date=tk.Entry(mainPage,width=40,font=("Helvetica", 10),textvariable=format_date)
-    but_search=tk.Button(mainPage,text="Search",width=10)
-    lbl_result=tk.Label(mainPage,text="Result",font=("Helvetica", 13,"bold"),fg='black')
-    lbl_welcome.grid(column=1,row=0,pady=20)
-    lbl_province.grid(column=0,row=2,pady=4)
-    input_province.grid(column=1,row=2,pady=4)
-    lbl_date.grid(column=0,row=3,pady=4)
-    input_date.grid(column=1,row=3,pady=4)
-    but_search.grid(column=1,row=4,pady=10)
-    lbl_result.grid(column=0,row=5,padx=10)
+    global input_date
+    input_date=ttk.Combobox(mainPage,width=38,font=("Helvetica", 10))
+    date_time_now = datetime.now().strftime("%d/%m/%Y")
+    data_time_yesterday=(datetime.now()-timedelta(1)).strftime("%d/%m/%Y")
+    data_time_previous=(datetime.now()-timedelta(2)).strftime("%d/%m/%Y")
+    input_date['value']=(date_time_now,data_time_yesterday,data_time_previous)
+    input_date.current(0)
+    but_search=tk.Button(mainPage,text="Search",width=10,command=Search)
+    lbl_result=tk.Label(mainPage,text="Result",font=("Helvetica", 13,"bold"),fg='black') #Hàm search
+    lbl_note=tk.Label(mainPage,text=f'Note: You can just choose a date from {data_time_previous} to {date_time_now}.',font=("Helvetica", 10,"bold"),fg='black')
+    lbl_provinceresult=tk.Label(mainPage,text="Province:",font=("Helvetica", 13,"bold"),fg='black') 
+    lbl_totalcases=tk.Label(mainPage,text="Total cases:",font=("Helvetica", 13,"bold"),fg='black')
+    lbl_newcases=tk.Label(mainPage,text="New cases:",font=("Helvetica", 13,"bold"),fg='black')     
+    lbl_deaths=tk.Label(mainPage,text="Total deaths:",font=("Helvetica", 13,"bold"),fg='black')       
+    global lbl_resultdeaths
+    global lbl_resultnewcases
+    global lbl_resultprovince
+    global lbl_resulttotalcases 
+    lbl_resultprovince=tk.Label(mainPage,text="",font=("Helvetica", 13,"bold"),fg='red')
+    lbl_resulttotalcases=tk.Label(mainPage,text="",font=("Helvetica", 13,"bold"),fg='red')
+    lbl_resultnewcases=tk.Label(mainPage,text="",font=("Helvetica", 13,"bold"),fg='red')     
+    lbl_resultdeaths=tk.Label(mainPage,text="",font=("Helvetica", 13,"bold"),fg='red')         
+    but_logout=tk.Button(mainPage,text="Logout",width=10,command=logOut)
+    lbl_hisuer.grid(columnspan=2,row=0,sticky="w",padx=10)
+    but_logout.grid(column=0,row=1,sticky="w",padx=10,pady=10)
+    lbl_welcome.grid(columnspan=2,row=2,pady=10,padx=10)
+    lbl_province.grid(column=0,row=3,pady=4)
+    input_province.grid(column=1,row=3,pady=4,sticky="w")
+    lbl_date.grid(column=0,row=4,pady=4)
+    input_date.grid(column=1,row=4,pady=4,sticky="w")
+    but_search.grid(column=1,row=6,pady=10,sticky="w",padx=50)
+    lbl_note.grid(columnspan=2,row=7,padx=20)
+    lbl_result.grid(columnspan=2,row=8,padx=70)
+    lbl_provinceresult.grid(column=0,row=9,padx=10,sticky="w")
+    lbl_totalcases.grid(column=0,row=10,padx=8,sticky="w")
+    lbl_deaths.grid(column=0,row=11,padx=8,sticky="w")
+    lbl_newcases.grid(column=0,row=12,padx=10,sticky="w")
+    lbl_resultprovince.grid(column=1,row=9,sticky="w")
+    lbl_resulttotalcases.grid(column=1,row=10,sticky="w")
+    lbl_resultdeaths.grid(column=1,row=11,sticky="w")
+    lbl_resultnewcases.grid(column=1,row=12,sticky="w")
 runClient()
