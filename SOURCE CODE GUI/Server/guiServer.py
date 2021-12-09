@@ -1,5 +1,6 @@
 import socket
 import threading
+import sys
 import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox
@@ -19,7 +20,9 @@ s.listen()
 #
 def exit(page):
     #Socket gửi request exit
+    s.close()
     page.destroy()
+    sys.exit()
 def receive_account_password(conn):
     acc = conn.recv(1024).decode('utf8')
     psw = conn.recv(1024).decode('utf8')
@@ -42,37 +45,50 @@ def show_connections(conn, addr, status):
     show(time)
     show("Client's addr: (" + addr[0] + ", " + str(addr[1]) + ")\nStatus: ")
     show(status + '\n')
+    connecteduser.see('end')
     
 def handle_client(conn, addr):
     print("Address: ", addr)
-    
+    show_connections(conn, addr, "Try to connect.")
     while True:
         try:
-            request = conn.recv(1024).decode('utf8')
-        except:
-            pass
-        print(request)
-        if request == "SignIn":
-            send_accepted_request(conn, request)
-            account, password = receive_account_password(conn)
-            status = "Account does not exist"
-            if checkAccounts(account):
-                status = SignIn(account, password)
-            conn.sendall(status.encode('utf8'))
-            show_connections(conn, addr, status)
+            request = conn.recv(1024).decode('utf8')      #Nhận request liên tục
+            print(request)
+            if request == "SignIn":
+                send_accepted_request(conn, request)
+                account, password = receive_account_password(conn)
+                status = "Account does not exist."
+                if checkAccounts(account):
+                    status = SignIn(account, password)
+                conn.sendall(status.encode('utf8'))
+                show_connections(conn, addr, status)
+            if request == "SignUp":
+                send_accepted_request(conn, request)
+            if request == "Disconnect":
+                send_accepted_request(conn, request)
+            if request == "LogOut":
+                send_accepted_request(conn, request)
+                show_connections(conn, addr, "User sign out.")
+            if request == "":                           #Kiểm tra client còn sống hay không
+                send_accepted_request(conn, "Check live")
+        except:             #nếu có lỗi do client ngắt kết nối                          
+            show_connections(conn, addr, "Client has been shutted down.")
+            break
 
 # xử lí đa luồng
 print("Server: ", s.getsockname())
 def live_server():
     global s
     while True:
-        conn, addr = s.accept()
         try:
+            conn, addr = s.accept()
             thr = threading.Thread(target=handle_client, args=(conn, addr))
             thr.daemon = True
             thr.start()
         except:
-            print("Error")
+            show_connections(conn, addr, "Client has been disconnected.")
+            
+
 #
 def center(app,width,height): #Center app screen
     screen_width=app.winfo_screenwidth()
@@ -106,7 +122,6 @@ def MainPage():
     thr = threading.Thread(target=live_server)
     thr.daemon = True
     thr.start()
-
     #connecteduser.delete(1.0,END) #Xóa tất cả các text. Lúc refresh hay gì thì xài
     
 def runServer():
