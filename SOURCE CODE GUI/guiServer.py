@@ -22,11 +22,14 @@ def receive_account_password(conn):
     return acc, psw
 def show(text):
     connecteduser.insert('end', text)
-def get_time_connect():                         #
+def get_time_connect():
     now = datetime.now()
+    result = now.strftime('%d/%m/%Y %H:%M')
     if now.hour < 12:
-        return now.strftime('%d/%m/%Y %H:%M') + "AM, "
-    return now.strftime('%d/%m/%Y %H:%M') + "PM, "
+        result += "AM, "
+    else:
+        result += "PM, "
+    return result
 def handle_client(conn, addr):
     print("Address: ", addr)
     time = get_time_connect()
