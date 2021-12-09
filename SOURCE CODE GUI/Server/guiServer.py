@@ -17,6 +17,9 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen()
 #
+def exit(page):
+    #Socket gửi request exit
+    page.destroy()
 def receive_account_password(conn):
     acc = conn.recv(1024).decode('utf8')
     psw = conn.recv(1024).decode('utf8')
@@ -89,6 +92,7 @@ def MainPage():
     lbl_ipserver=tk.Label(mainPage,text=f'SERVER IP: {HOST}',font=("Helvetica", 13,"bold"),fg='black')
     lbl_port=tk.Label(mainPage,text=f'PORT: {PORT}',font=("Helvetica", 13,"bold"),fg='black')    
     lbl_connecteduser=tk.Label(mainPage,text="Connected users: ",font=("Helvetica", 13,"bold"),fg='black')
+    but_exit=tk.Button(mainPage,text="Exit",width=10,command=lambda:exit(mainPage))    
     lbl_welcome.grid(column=1,row=0,padx=60,pady=10)
     lbl_ipserver.grid(column=1,row=1,sticky='w',padx=10)
     lbl_port.grid(column=1,row=2,sticky="w",padx=10)
@@ -96,10 +100,13 @@ def MainPage():
     global connecteduser
     connecteduser = tkscrolled.ScrolledText(mainPage, font=("Helvetica", 13), bg = "white", height = 13, width = 75)
     connecteduser.grid(row=4,column=1,pady=10,padx=10)
+    but_exit.grid(row=5,column=1,padx=50,pady=20)
+    mainPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
     #Bật live server, lắng nghe kết nối clients
     thr = threading.Thread(target=live_server)
     thr.daemon = True
     thr.start()
+
     #connecteduser.delete(1.0,END) #Xóa tất cả các text. Lúc refresh hay gì thì xài
     
 def runServer():

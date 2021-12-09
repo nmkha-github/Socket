@@ -16,6 +16,9 @@ def center(app,width,height): #Center app screen
     y=(screen_height/2) - (height/2)
     app.geometry(f'{width}x{height}+{int(x)}+{int(y)}')
     return app
+def exit(page): #function tắt
+    #Socket gửi request exit
+    page.destroy()
 def ConnectServer():
     ip=input_ip.get()
     port=input_port.get()
@@ -187,7 +190,7 @@ def MainPage():
     mainPage.title("COVID 19 VIETNAM INFORMATION")
     mainPage=center(mainPage,430,500)
     mainPage.resizable(width=False,height=False)
-    lbl_hisuer=tk.Label(mainPage,text=f'Hi, {username}',font=("Helvetica", 10,"bold"),fg='black')
+    lbl_hiuser=tk.Label(mainPage,text=f'Hi, {username}',font=("Helvetica", 10,"bold"),fg='black')
     lbl_welcome=tk.Label(mainPage,text="COVID 19 VIETNAM INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
     blank=tk.Label(loginPage,text="")
     global input_province
@@ -207,7 +210,8 @@ def MainPage():
     lbl_provinceresult=tk.Label(mainPage,text="Province:",font=("Helvetica", 13,"bold"),fg='black') 
     lbl_totalcases=tk.Label(mainPage,text="Total cases:",font=("Helvetica", 13,"bold"),fg='black')
     lbl_newcases=tk.Label(mainPage,text="New cases:",font=("Helvetica", 13,"bold"),fg='black')     
-    lbl_deaths=tk.Label(mainPage,text="Total deaths:",font=("Helvetica", 13,"bold"),fg='black')       
+    lbl_deaths=tk.Label(mainPage,text="Total deaths:",font=("Helvetica", 13,"bold"),fg='black')   
+    but_exit=tk.Button(mainPage,text="Exit",width=10,command=lambda:exit(mainPage))    
     global lbl_resultdeaths
     global lbl_resultnewcases
     global lbl_resultprovince
@@ -217,7 +221,7 @@ def MainPage():
     lbl_resultnewcases=tk.Label(mainPage,text="",font=("Helvetica", 13,"bold"),fg='red')     
     lbl_resultdeaths=tk.Label(mainPage,text="",font=("Helvetica", 13,"bold"),fg='red')         
     but_logout=tk.Button(mainPage,text="Logout",width=10,command=logOut)
-    lbl_hisuer.grid(columnspan=2,row=0,sticky="w",padx=10)
+    lbl_hiuser.grid(columnspan=2,row=0,sticky="w",padx=10)
     but_logout.grid(column=0,row=1,sticky="w",padx=10,pady=10)
     lbl_welcome.grid(columnspan=2,row=2,pady=10,padx=10)
     lbl_province.grid(column=0,row=3,pady=4)
@@ -235,4 +239,6 @@ def MainPage():
     lbl_resulttotalcases.grid(column=1,row=10,sticky="w")
     lbl_resultdeaths.grid(column=1,row=11,sticky="w")
     lbl_resultnewcases.grid(column=1,row=12,sticky="w")
+    but_exit.grid(column=1,row=13,sticky="w",padx=50,pady=20)
+    mainPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
 runClient()
