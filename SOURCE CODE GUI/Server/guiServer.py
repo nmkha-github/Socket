@@ -60,7 +60,7 @@ def handle_client(conn, addr):
                 if checkAccounts(account):
                     status = SignIn(account, password)
                 conn.sendall(status.encode('utf8'))
-                show_connections(conn, addr, status + "(user: " + account + ")")
+                show_connections(conn, addr, status + " (user: " + account + ")")
             if request == "SignUp":
                 send_accepted_request(conn, request)
             if request == "Disconnect":
