@@ -21,11 +21,14 @@ def receive_account_password(conn):
     return acc, psw
 def show(text):
     connecteduser.insert('end', text)
-    
+def get_time_connect():                         #
+    now = datetime.now()
+    if now.hour < 12:
+        return now.strftime('%d/%m/%Y %H:%M') + "AM, "
+    return now.strftime('%d/%m/%Y %H:%M') + "PM, "
 def handle_client(conn, addr):
     print("Address: ", addr)
-    #time = real_time
-    time = "8/12/2021 15:31PM, "
+    time = get_time_connect()
     show(time)
     show("Client's addr: (" + addr[0] + ", " + str(addr[1]) + "), status: ")
     #status = check_account()
