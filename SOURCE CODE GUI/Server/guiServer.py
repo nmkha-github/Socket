@@ -43,10 +43,9 @@ def get_time_connect():
 def show_connections(conn, addr, status):
     time = get_time_connect()
     show(time)
-    show("Client's addr: (" + addr[0] + ", " + str(addr[1]) + ")\nStatus: ")
-    show(status + '\n')
+    show("Client's addr: (" + addr[0] + ", " + str(addr[1]) + ")" + "\n")
+    show("Status: " + status + '\n')
     connecteduser.see('end')
-    
 def handle_client(conn, addr):
     print("Address: ", addr)
     show_connections(conn, addr, "Try to connect.")
@@ -61,7 +60,7 @@ def handle_client(conn, addr):
                 if checkAccounts(account):
                     status = SignIn(account, password)
                 conn.sendall(status.encode('utf8'))
-                show_connections(conn, addr, status)
+                show_connections(conn, addr, status + "(user: " + account + ")")
             if request == "SignUp":
                 send_accepted_request(conn, request)
             if request == "Disconnect":
