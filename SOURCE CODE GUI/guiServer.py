@@ -57,7 +57,7 @@ def MainPage():
     global mainPage
     mainPage=Toplevel()
     mainPage.title("COVID 19 SERVER MANAGEMENT")
-    mainPage=center(mainPage,400,500)
+    mainPage=center(mainPage,700,500)
     mainPage.resizable(width=False,height=False)
     lbl_welcome=tk.Label(mainPage,text="COVID 19 SERVER MANAGEMENT",font=("Helvetica", 13,"bold"),fg='black')
     lbl_ipserver=tk.Label(mainPage,text=f'SERVER IP: {HOST}',font=("Helvetica", 13,"bold"),fg='black')
@@ -68,8 +68,8 @@ def MainPage():
     lbl_port.grid(column=1,row=2,sticky="w",padx=10)
     lbl_connecteduser.grid(column=1,row=3)
     global connecteduser
-    connecteduser = tkscrolled.ScrolledText(mainPage, font=("Helvetica", 13), bg = "white", height = 13, width = 40)
-    connecteduser.grid(row=4,column=1,pady=10)
+    connecteduser = tkscrolled.ScrolledText(mainPage, font=("Helvetica", 13), bg = "white", height = 13, width = 75)
+    connecteduser.grid(row=4,column=1,pady=10,padx=10)
     #Bật live server, lắng nghe kết nối clients
     thr = threading.Thread(target=live_server)
     thr.daemon = True
