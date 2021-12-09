@@ -11,6 +11,9 @@ from datetime import datetime,timedelta
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Trang hiển thị khi mất kết nối server
 def ServerDisconnectedPage():
+    global disPage
+    disPage = Toplevel()
+    #Thiết kế
     ...
     
 def center(app,width,height): #Center app screen
