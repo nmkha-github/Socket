@@ -1,5 +1,6 @@
 import socket
 import tkinter as tk
+import sys
 from tkinter import messagebox
 from tkinter import ttk
 from tkinter import *
@@ -8,7 +9,10 @@ from PIL import ImageTk, Image  #Install Pillow
 from datetime import datetime,timedelta
 #
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#
+# Trang hiển thị khi mất kết nối server
+def ServerDisconnectedPage():
+    ...
+    
 def center(app,width,height): #Center app screen
     screen_width=app.winfo_screenwidth()
     screen_height=app.winfo_screenheight()-200
@@ -19,6 +23,7 @@ def center(app,width,height): #Center app screen
 def exit(page): #function tắt
     #Socket gửi request exit
     page.destroy()
+    sys.exit()
 def ConnectServer():
     ip=input_ip.get()
     port=input_port.get()
@@ -90,7 +95,7 @@ def login():
         lbl_loginalert["text"]="Login successfully" #Dùng socket check tài khoản mật khẩu
         MainPage()
     except:
-        pass
+        ServerDisconnectedPage()
 def LoginPage():
     global loginPage
     loginPage=Toplevel()
@@ -182,8 +187,13 @@ def Search(): #Dùng socket để chỉnh
     lbl_resulttotalcases["text"]="12312"
 def logOut():
     #Dùng socket để logout
-    mainPage.withdraw()
-    LoginPage()
+    try:        #Nếu có thể gửi và nhận thì server vẫn còn sống
+        client.sendall("LogOut".encode('utf8')) #Gửi request cho server
+        print(client.recv(1024).decode('utf8')) #Nhận reply accept từ server
+        mainPage.withdraw()
+        LoginPage()
+    except:
+        ServerDisconnectedPage()
 def MainPage():
     global mainPage
     mainPage=Toplevel()
