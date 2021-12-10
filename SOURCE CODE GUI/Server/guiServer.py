@@ -48,7 +48,7 @@ def show_connections(conn, addr, status):
     connecteduser.see('end')
 def handle_client(conn, addr):
     print("Address: ", addr)
-    show_connections(conn, addr, "Try to connect.")
+    show_connections(conn, addr, "Connected")
     while True:
         try:
             request = conn.recv(1024).decode('utf8')      #Nhận request liên tục
@@ -67,7 +67,7 @@ def handle_client(conn, addr):
                 send_accepted_request(conn, request)
             if request == "LogOut":
                 send_accepted_request(conn, request)
-                show_connections(conn, addr, "User sign out.")
+                show_connections(conn, addr, "User logged out.")
             if request == "":                           #Kiểm tra client còn sống hay không
                 send_accepted_request(conn, "Check live")
         except:             #nếu có lỗi do client ngắt kết nối                          
@@ -96,32 +96,43 @@ def center(app,width,height): #Center app screen
     y=(screen_height/2) - (height/2)
     app.geometry(f'{width}x{height}+{int(x)}+{int(y)}')
     return app
-
+def refresh():
+    connecteduser.delete(1.0,END)
+def disconnectAll():
+    #Socket
+    return
 def MainPage():
     global mainPage
     mainPage=Toplevel()
     mainPage.title("COVID 19 SERVER MANAGEMENT")
-    mainPage=center(mainPage,700,500)
+    mainPage=center(mainPage,715,500)
     mainPage.resizable(width=False,height=False)
-    lbl_welcome=tk.Label(mainPage,text="COVID 19 SERVER MANAGEMENT",font=("Helvetica", 13,"bold"),fg='black')
-    lbl_ipserver=tk.Label(mainPage,text=f'SERVER IP: {HOST}',font=("Helvetica", 13,"bold"),fg='black')
-    lbl_port=tk.Label(mainPage,text=f'PORT: {PORT}',font=("Helvetica", 13,"bold"),fg='black')    
+    lbl_welcome=tk.Label(mainPage,text="COVID 19 SERVER MANAGEMENT",font=("Helvetica", 13,"bold"),fg='black')   
     lbl_connecteduser=tk.Label(mainPage,text="Connected users: ",font=("Helvetica", 13,"bold"),fg='black')
-    but_exit=tk.Button(mainPage,text="Exit",width=10,command=lambda:exit(mainPage))    
+    frame_but=tk.Frame(mainPage)
+    but_exit=tk.Button(frame_but,text="Exit",width=10,command=lambda:exit(mainPage))    
+    but_refresh=tk.Button(frame_but,text="Refresh",width=10,command=refresh)
+    but_disconnectAll=tk.Button(frame_but,text="Disconnect all",width=12,command=disconnectAll)
+    blank=tk.Label(frame_but,text="                          ")
+    lbl_ipserver=tk.Label(frame_but,text=f'SERVER IP: {HOST}',font=("Helvetica", 13,"bold"),fg='black')
+    lbl_port=tk.Label(frame_but,text=f'PORT: {PORT}',font=("Helvetica", 13,"bold"),fg='black') 
     lbl_welcome.grid(column=1,row=0,padx=60,pady=10)
     lbl_ipserver.grid(column=1,row=1,sticky='w',padx=10)
     lbl_port.grid(column=1,row=2,sticky="w",padx=10)
+    blank.grid(column=2,row=1,padx=70)
+    but_refresh.grid(column=3,row=1,sticky="w",padx=7)
+    but_disconnectAll.grid(column=4,row=1,sticky="w",padx=7)
+    but_exit.grid(column=5,row=1,sticky="w",padx=7)
     lbl_connecteduser.grid(column=1,row=3)
     global connecteduser
     connecteduser = tkscrolled.ScrolledText(mainPage, font=("Helvetica", 13), bg = "white", height = 13, width = 75)
     connecteduser.grid(row=4,column=1,pady=10,padx=10)
-    but_exit.grid(row=5,column=1,padx=50,pady=20)
+    frame_but.grid(row=2,column=1,sticky="w")
     mainPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
     #Bật live server, lắng nghe kết nối clients
     thr = threading.Thread(target=live_server)
     thr.daemon = True
     thr.start()
-    #connecteduser.delete(1.0,END) #Xóa tất cả các text. Lúc refresh hay gì thì xài
     
 def runServer():
     global app
