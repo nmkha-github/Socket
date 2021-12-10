@@ -1,18 +1,19 @@
 import json
+import os
 import requests
 from bs4 import BeautifulSoup
 from datetime import date, datetime
-
+path=os.getcwd() #Lấy path
 Wiki_URL = 'https://vi.wikipedia.org/wiki/B%E1%BA%A3n_m%E1%BA%ABu:D%E1%BB%AF_li%E1%BB%87u_%C4%91%E1%BA%A1i_d%E1%BB%8Bch_COVID-19/S%E1%BB%91_ca_nhi%E1%BB%85m_theo_t%E1%BB%89nh_th%C3%A0nh_t%E1%BA%A1i_Vi%E1%BB%87t_Nam#cite_note-1'
 # Biến toàn cục chứa dữ liệu
 #fi = open("data.json", "r", encoding="utf-8")
-fi = open("F:\Project Python\Do an socket\Socket\SOURCE CODE GUI\Server\data.json", "r", encoding="utf-8")
+fi = open(f'{path}\SOURCE CODE GUI\Server\data.json', "r", encoding="utf-8")
 full_data = fi.read()
 full_data = json.loads(full_data)
 fi.close()
 # Biến toàn cục để lưu thông tin tài khoản
 #fi2 = open('accounts.json', "r", encoding="utf-8")
-fi2 = open("F:\Project Python\Do an socket\Socket\SOURCE CODE GUI\Server\\accounts.json", "r", encoding="utf-8")
+fi2 = open(f'{path}\SOURCE CODE GUI\Server\\accounts.json', "r", encoding="utf-8")
 accounts = fi2.read()
 accounts = json.loads(accounts)
 fi2.close()

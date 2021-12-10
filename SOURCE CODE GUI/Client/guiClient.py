@@ -184,6 +184,8 @@ def RegistrationPage():
     but_register.grid(row=6,column=1)
     registrationPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
 def Search(): #Dùng socket để chỉnh
+    data=input_date.get()
+    
     lbl_resultprovince["text"]="Ho Chi Minh" #Chỉnh dữ liệu
     lbl_resultnewcases["text"]="965"
     lbl_resultdeaths["text"]="2132"
