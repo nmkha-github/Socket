@@ -72,7 +72,7 @@ def handle_client(conn, addr):
             if request == "":                           #Kiểm tra client còn sống hay không
                 send_accepted_request(conn, "Check live")
         except:             #nếu có lỗi do client ngắt kết nối                          
-            show_connections(conn, addr, "Client has been shutted down.")
+            show_connections(conn, addr, "Client has been shutdown.")
             break
 
 # xử lí đa luồng
@@ -101,7 +101,7 @@ def refresh():
     connecteduser.delete(1.0,END)
 def disconnectAll():
     #Socket
-    return
+    print("Hello")
 def MainPage():
     global mainPage
     mainPage=Toplevel()
