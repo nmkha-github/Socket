@@ -104,7 +104,6 @@ def LoginPage():
     loginPage=Toplevel()
     loginPage.title("COVID 19 VIETNAM INFORMATION")
     loginPage=center(loginPage,420,180)
-    #loginPage.geometry("320x200")
     loginPage.resizable(width=False,height=False)
     lbl_welcome=tk.Label(loginPage,text="COVID 19 VIETNAM INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
     lbl_login=tk.Label(loginPage,text="LOGIN",font=("Helvetica", 13,"bold"),fg='black')
@@ -185,7 +184,7 @@ def RegistrationPage():
     registrationPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
 def Search(): #Dùng socket để chỉnh
     data=input_date.get()
-    
+
     lbl_resultprovince["text"]="Ho Chi Minh" #Chỉnh dữ liệu
     lbl_resultnewcases["text"]="965"
     lbl_resultdeaths["text"]="2132"
