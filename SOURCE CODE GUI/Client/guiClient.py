@@ -155,7 +155,7 @@ def register():  #Socket đăng ký
         print(client.recv(1024).decode('utf8'))
         send_account_password(username, password)
         reply = client.recv(1024).decode('utf8')
-        lbl_loginalert["text"]= reply #Dùng socket check tài khoản mật khẩu
+        lbl_registeralert["text"]= reply #Dùng socket check tài khoản mật khẩu
         return
     except:
         lbl_registeralert["text"]="Fail to sign up" #Đăng ký thất bại

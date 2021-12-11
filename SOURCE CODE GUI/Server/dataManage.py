@@ -107,5 +107,5 @@ def SignUp(username, password):
         fo.write(json_string)
         fo.close()
 
-        return "Sign up successfully!"
+        return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
