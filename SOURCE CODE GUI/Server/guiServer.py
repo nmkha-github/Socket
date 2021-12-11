@@ -71,7 +71,6 @@ def handle_client(conn, addr):
                 show_connections(conn, addr, status)
             if request == "Disconnect":
                 send_accepted_request(conn, request)
-                conn.close()
                 break
             if request == "LogOut":
                 send_accepted_request(conn, request)
@@ -80,8 +79,8 @@ def handle_client(conn, addr):
                 send_accepted_request(conn, "Check live")
         except:             #nếu có lỗi do client ngắt kết nối                          
             show_connections(conn, addr, "Client has been shutdown.")
-            conn.close()
             break
+    conn.close()
 
 # xử lí đa luồng
 print("Server: ", s.getsockname())
