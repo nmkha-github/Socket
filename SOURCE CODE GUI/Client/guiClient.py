@@ -72,6 +72,9 @@ def runClient():
 def sign_up_button():      
     loginPage.withdraw()
     RegistrationPage()
+def send_account_password(username, password):
+    client.sendall(username.encode('utf8'))
+    client.sendall(password.encode('utf8'))
 def login():
     global username
     username=input_user_login.get() #Để tạo Hi, username trong màn hình chính
@@ -87,8 +90,7 @@ def login():
         request = "SignIn"
         client.sendall(request.encode('utf8'))
         print(client.recv(1024).decode('utf8'))
-        client.sendall(username.encode('utf8'))
-        client.sendall(password.encode('utf8'))
+        send_account_password(username, password)
         reply = client.recv(1024).decode('utf8')
         if reply != "Login successful!":
             lbl_loginalert["text"]="Incorrect username or password" #Dùng socket check tài khoản mật khẩu
@@ -151,8 +153,7 @@ def register():  #Socket đăng ký
         request = "SignUp"
         client.sendall(request.encode('utf8'))
         print(client.recv(1024).decode('utf8'))
-        client.sendall(username.encode('utf8'))
-        client.sendall(password.encode('utf8'))
+        send_account_password(username, password)
         reply = client.recv(1024).decode('utf8')
         lbl_loginalert["text"]= reply #Dùng socket check tài khoản mật khẩu
         return
