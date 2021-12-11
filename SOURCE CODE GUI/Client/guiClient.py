@@ -86,7 +86,7 @@ def login():
     #Kết nối
     try:
         request = "SignIn"
-        client.sendall("SignIn".encode('utf8'))
+        client.sendall(request.encode('utf8'))
         print(client.recv(1024).decode('utf8'))
         client.sendall(username.encode('utf8'))
         client.sendall(password.encode('utf8'))
@@ -147,8 +147,20 @@ def register():  #Socket đăng ký
     if(password!=confirmpassword):
        lbl_registeralert["text"]="The password confirmation does not match"
        return
-    lbl_registeralert["text"]="Your account has been created successfully" #Dùng socket check nhé
-    #lbl_registeralert["text"]="This username is already taken" #Đăng ký thất bại
+    # Kết nối
+    try:
+        request = "SignUp"
+        client.sendall(request.encode('utf8'))
+        print(client.recv(1024).decode('utf8'))
+        client.sendall(username.encode('utf8'))
+        client.sendall(password.encode('utf8'))
+        reply = client.recv(1024).decode('utf8')
+        lbl_loginalert["text"]= reply #Dùng socket check tài khoản mật khẩu
+        return
+    except:
+        lbl_registeralert["text"]="Fail to sign up" #Đăng ký thất bại
+        ServerDisconnectedPage()
+    
 def RegistrationPage():
     global registrationPage
     registrationPage=Toplevel()

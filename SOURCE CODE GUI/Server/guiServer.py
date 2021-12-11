@@ -41,7 +41,7 @@ def get_time_connect():
     else:
         result += "PM, "
     return result
-def show_connections(conn, addr, status):
+def show_connections(conn, addr, status, color="Black"):
     time = get_time_connect()
     show(time)
     show("Client's addr: (" + addr[0] + ", " + str(addr[1]) + ")" + "\n")
@@ -50,6 +50,7 @@ def show_connections(conn, addr, status):
 def handle_client(conn, addr):
     print("Address: ", addr)
     show_connections(conn, addr, "Connected")
+    account = ''
     while True:
         try:
             request = conn.recv(1024).decode('utf8')      #Nhận request liên tục
@@ -64,11 +65,15 @@ def handle_client(conn, addr):
                 show_connections(conn, addr, status + " (user: " + account + ")")
             if request == "SignUp":
                 send_accepted_request(conn, request)
+                account, password = receive_account_password(conn)
+                status = SignUp(account, password)
+                conn.sendall(status.encode('utf8'))
+                show_connections(conn, addr, status)
             if request == "Disconnect":
                 send_accepted_request(conn, request)
             if request == "LogOut":
                 send_accepted_request(conn, request)
-                show_connections(conn, addr, "User logged out.")
+                show_connections(conn, addr, "User (" + account + ") logged out.")
             if request == "":                           #Kiểm tra client còn sống hay không
                 send_accepted_request(conn, "Check live")
         except:             #nếu có lỗi do client ngắt kết nối                          
