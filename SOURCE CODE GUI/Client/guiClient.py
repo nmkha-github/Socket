@@ -14,7 +14,6 @@ def ServerDisconnectedPage():
     global disPage
     disPage = Toplevel()
     #Thiết kế
-    ...
     
 def center(app,width,height): #Center app screen
     screen_width=app.winfo_screenwidth()
@@ -177,9 +176,9 @@ def RegistrationPage():
     global input_user_signup
     global input_pass_signup
     global input_copass_signup
-    input_user_signup=tk.Entry(registrationPage,width=30,font=("Helvetica", 10))
-    input_pass_signup=tk.Entry(registrationPage,width=30,font=("Helvetica", 10),show="*")
-    input_copass_signup=tk.Entry(registrationPage,width=30,font=("Helvetica", 10),show="*")
+    input_user_signup=tk.Entry(registrationPage,width=40,font=("Helvetica", 10))
+    input_pass_signup=tk.Entry(registrationPage,width=40,font=("Helvetica", 10),show="*")
+    input_copass_signup=tk.Entry(registrationPage,width=40,font=("Helvetica", 10),show="*")
     but_register=tk.Button(registrationPage,text="REGISTER",width=20,command=register) #Socket
     but_backToLogin=tk.Button(registrationPage,text="Back to login",width=10,command=back_to_login)
     registrationPage.bind('<Return>',lambda e:register()) #Bấm enter

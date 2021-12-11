@@ -15,6 +15,7 @@ from dataManage import *
 HOST = '127.0.0.1'  
 PORT = 8000 
 #
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen()
@@ -105,6 +106,9 @@ def center(app,width,height): #Center app screen
     y=(screen_height/2) - (height/2)
     app.geometry(f'{width}x{height}+{int(x)}+{int(y)}')
     return app
+def left(app,width,height): #left top app screen
+    app.geometry(f'{width}x{height}+{0}+{0}')
+    return app
 def refresh():
     connecteduser.delete(1.0,END)
 def disconnectAll():
@@ -114,7 +118,8 @@ def MainPage():
     global mainPage
     mainPage=Toplevel()
     mainPage.title("COVID 19 SERVER MANAGEMENT")
-    mainPage=center(mainPage,715,500)
+    mainPage=left(mainPage,715,500)
+    mainPage.geometry()
     mainPage.resizable(width=False,height=False)
     lbl_welcome=tk.Label(mainPage,text="COVID 19 SERVER MANAGEMENT",font=("Helvetica", 13,"bold"),fg='black')   
     lbl_connecteduser=tk.Label(mainPage,text="Connected users: ",font=("Helvetica", 13,"bold"),fg='black')

@@ -3,7 +3,9 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from datetime import date, datetime
-
+abspath = os.path.abspath(__file__) #Sửa lỗi path
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 Wiki_URL = 'https://vi.wikipedia.org/wiki/B%E1%BA%A3n_m%E1%BA%ABu:D%E1%BB%AF_li%E1%BB%87u_%C4%91%E1%BA%A1i_d%E1%BB%8Bch_COVID-19/S%E1%BB%91_ca_nhi%E1%BB%85m_theo_t%E1%BB%89nh_th%C3%A0nh_t%E1%BA%A1i_Vi%E1%BB%87t_Nam#cite_note-1'
 
 
