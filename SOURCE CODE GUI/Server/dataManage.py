@@ -38,21 +38,35 @@ def lcs(X, Y, m, n):
         return False
 def SearchData(province, date):
     fileName = os.getcwd() + '\data\\'+date+'.json'
-    try:
-        fi = open(fileName, "r", encoding="utf-8")
-        data = fi.read()
-        data = json.loads(data)
-        provinceToken=province.split()
-        fi.close()
-        for provinceData in data:
-            provinceCheck=provinceData['province']
-            CheckToken=provinceCheck.split()
-            result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken))
-            if(result==True):
-                return provinceData['province']
-        return "Province not found"
-    except:
-        return "Date not found!"
+    fi = open(fileName, "r", encoding="utf-8")
+    data = fi.read()
+    data = json.loads(data)
+    print(data)
+    provinceToken=province.split()
+    fi.close()
+    for provinceData in data:
+        provinceCheck=provinceData['province']
+        CheckToken=provinceCheck.split()
+        result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken))
+        if(result==True):
+            return provinceData['province']
+    return "Province not found"
+    # try:
+    #     fi = open(fileName, "r", encoding="utf-8")
+    #     data = fi.read()
+    #     data = json.loads(data)
+    #     print(data)
+    #     provinceToken=province.split()
+    #     fi.close()
+    #     for provinceData in data:
+    #         provinceCheck=provinceData['province']
+    #         CheckToken=provinceCheck.split()
+    #         result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken))
+    #         if(result==True):
+    #             return provinceData['province']
+    #     return "Province not found"
+    # except:
+    #     return "Date not found!"
 
 
 # Nhiệm vụ: lấy dữ liệu từ thirty web về và tạo thành list dữ liệu các tỉnh
