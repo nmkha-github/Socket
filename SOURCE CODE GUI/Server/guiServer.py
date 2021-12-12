@@ -29,7 +29,10 @@ def receive_account_password(conn):
     acc = conn.recv(1024).decode('utf8')
     psw = conn.recv(1024).decode('utf8')
     return acc, psw
-
+def receive_province_date(conn):
+    province = conn.recv(1024).decode('utf8')
+    date = conn.recv(1024).decode('utf8')
+    return province,date
 def show(text):
     connecteduser.insert('end', text)
 def send_accepted_request(conn, request):
@@ -76,6 +79,11 @@ def handle_client(conn, addr):
             if request == "LogOut":
                 send_accepted_request(conn, request)
                 show_connections(conn, addr, "User (" + account + ") logged out.")
+            if request=="Search":
+                send_accepted_request(conn, request)
+                province,date=receive_province_date(conn)
+
+                show_connections(conn, addr, "User (" + account + ") search.")
             if request == "":                           #Kiểm tra client còn sống hay không
                 send_accepted_request(conn, "Check live")
         except:             #nếu có lỗi do client ngắt kết nối                          
@@ -156,4 +164,5 @@ def runServer():
     app.withdraw()
     MainPage() #Có socket xử lý tiếp
     app.mainloop()
+print(SearchData("Xin CHào Hồ Chí Minh Tươi đẹp",'20211207'))
 runServer()

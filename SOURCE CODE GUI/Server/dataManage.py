@@ -7,6 +7,7 @@ abspath = os.path.abspath(__file__) #Sửa lỗi path
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 Wiki_URL = 'https://vi.wikipedia.org/wiki/B%E1%BA%A3n_m%E1%BA%ABu:D%E1%BB%AF_li%E1%BB%87u_%C4%91%E1%BA%A1i_d%E1%BB%8Bch_COVID-19/S%E1%BB%91_ca_nhi%E1%BB%85m_theo_t%E1%BB%89nh_th%C3%A0nh_t%E1%BA%A1i_Vi%E1%BB%87t_Nam#cite_note-1'
+from convert import *
 
 
 # Đổi ngày thành string
@@ -21,18 +22,35 @@ def DateToString(date):
     date_str += str(date.day)
     return date_str
 
-
+def lcs(X, Y, m, n):
+    L = [[0 for x in range(n+1)] for x in range(m+1)]
+    for i in range(m+1):
+        for j in range(n+1):
+            if i == 0 or j == 0:
+                L[i][j] = 0
+            elif convert_to_eng(X[i-1]) == convert_to_eng(Y[j-1]):
+                L[i][j] = L[i-1][j-1] + 1
+            else:
+                L[i][j] = max(L[i-1][j], L[i][j-1])
+    if(L[m][n]>=n/2):
+        return True
+    else:
+        return False
 def SearchData(province, date):
-    fileName = os.getcwd() + '/data/'+date+'.json'
+    fileName = os.getcwd() + '\data\\'+date+'.json'
     try:
         fi = open(fileName, "r", encoding="utf-8")
         data = fi.read()
         data = json.loads(data)
+        provinceToken=province.split()
         fi.close()
         for provinceData in data:
-            if (provinceData['province'] == province):
-                return provinceData
-        return "Province not found!"
+            provinceCheck=provinceData['province']
+            CheckToken=provinceCheck.split()
+            result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken))
+            if(result==True):
+                return provinceData['province']
+        return "Province not found"
     except:
         return "Date not found!"
 

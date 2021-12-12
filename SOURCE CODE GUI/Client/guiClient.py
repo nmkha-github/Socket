@@ -194,9 +194,19 @@ def RegistrationPage():
     but_backToLogin.grid(row=6,column=0)
     but_register.grid(row=6,column=1)
     registrationPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
+def send_date_province(date, province):
+    client.sendall(date.encode('utf8'))
+    client.sendall(province.encode('utf8'))
 def Search(): #Dùng socket để chỉnh
-    data=input_date.get()
-
+    date=input_date.get()
+    province=input_province.get()
+    try:
+        client.sendall("Search".encode('utf8')) 
+        print(client.recv(1024).decode('utf8'))
+        client.sendall(province.encode('utf8'))
+        client.sendall(date.encode('utf8'))
+    except:
+        ServerDisconnectedPage()
     lbl_resultprovince["text"]="Ho Chi Minh" #Chỉnh dữ liệu
     lbl_resultnewcases["text"]="965"
     lbl_resultdeaths["text"]="2132"

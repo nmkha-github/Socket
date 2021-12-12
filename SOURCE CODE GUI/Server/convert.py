@@ -15,6 +15,7 @@ def convert_to_eng(text):   #chuyển tiếng việt có dấu thành không gi�
         #Trường hợp viết hoa
         output = re.sub(regex.upper(), replace.upper(), output)
     return output.upper()
-
+def format(text):
+    return
 # print(convert_to_eng('Thành phố Hồ chí Minh'))
 #output: THANH PHO HO CHI MINH
