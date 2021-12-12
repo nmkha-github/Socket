@@ -41,7 +41,6 @@ def SearchData(province, date):
     fi = open(fileName, "r", encoding="utf-8")
     data = fi.read()
     data = json.loads(data)
-    print(data)
     provinceToken=province.split()
     fi.close()
     for provinceData in data:

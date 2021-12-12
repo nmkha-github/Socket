@@ -100,11 +100,15 @@ def login():
         MainPage()
     except:
         ServerDisconnectedPage()
+def disconnectServer(page):
+    #Socket
+    page.withdraw()
+    runClient()
 def LoginPage():
     global loginPage
     loginPage=Toplevel()
     loginPage.title("COVID 19 VIETNAM INFORMATION")
-    loginPage=center(loginPage,420,180)
+    loginPage=center(loginPage,420,190)
     loginPage.resizable(width=False,height=False)
     lbl_welcome=tk.Label(loginPage,text="COVID 19 VIETNAM INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
     lbl_login=tk.Label(loginPage,text="LOGIN",font=("Helvetica", 13,"bold"),fg='black')
@@ -118,6 +122,7 @@ def LoginPage():
     input_pass_login=tk.Entry(loginPage,width=30,show="*",font=("Helvetica", 10))
     but_log=tk.Button(loginPage,text="LOGIN",width=10,command=login) #Cần socket để xử lý tiếp
     but_reg=tk.Button(loginPage,text="Create new account",width=15,command=sign_up_button)
+    but_disconnect=tk.Button(loginPage,text="Disconnect",width=15,command=lambda: disconnectServer(loginPage))
     loginPage.bind('<Return>',lambda e:login()) #Bấm enter
     lbl_welcome.grid(column=1,row=0)
     lbl_login.grid(column=1,row=1)
@@ -128,6 +133,7 @@ def LoginPage():
     lbl_loginalert.grid(row=4,column=1)
     but_reg.grid(row=5,column=0,padx=10)
     but_log.grid(row=5,column=1)
+    but_disconnect.grid(row=6,column=0,padx=10,pady=5)
     loginPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
 def back_to_login():
     registrationPage.withdraw()
@@ -181,7 +187,8 @@ def RegistrationPage():
     input_pass_signup=tk.Entry(registrationPage,width=40,font=("Helvetica", 10),show="*")
     input_copass_signup=tk.Entry(registrationPage,width=40,font=("Helvetica", 10),show="*")
     but_register=tk.Button(registrationPage,text="REGISTER",width=20,command=register) #Socket
-    but_backToLogin=tk.Button(registrationPage,text="Back to login",width=10,command=back_to_login)
+    but_disconnect=tk.Button(registrationPage,text="Disconnect",width=15,command=lambda: disconnectServer(loginPage))
+    but_backToLogin=tk.Button(registrationPage,text="Back to login",width=15,command=back_to_login)
     registrationPage.bind('<Return>',lambda e:register()) #Bấm enter
     lbl_login.grid(column=1,row=1)
     lbl_username.grid(column=0,row=2)
@@ -193,6 +200,7 @@ def RegistrationPage():
     lbl_registeralert.grid(column=1,row=5)
     but_backToLogin.grid(row=6,column=0)
     but_register.grid(row=6,column=1)
+    but_disconnect.grid(row=7,column=0)
     registrationPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
 def send_date_province(date, province):
     client.sendall(date.encode('utf8'))
@@ -227,6 +235,7 @@ def MainPage():
     mainPage=center(mainPage,430,500)
     mainPage.resizable(width=False,height=False)
     lbl_hiuser=tk.Label(mainPage,text=f'Hi, {username}',font=("Helvetica", 10,"bold"),fg='black')
+    but_disconnect=tk.Button(mainPage,text="Disconnect",width=15,command=lambda: disconnectServer(loginPage))
     lbl_welcome=tk.Label(mainPage,text="COVID 19 VIETNAM INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
     blank=tk.Label(loginPage,text="")
     global input_province
@@ -258,7 +267,8 @@ def MainPage():
     lbl_resultdeaths=tk.Label(mainPage,text="",font=("Helvetica", 13,"bold"),fg='red')         
     but_logout=tk.Button(mainPage,text="Logout",width=10,command=logOut)
     lbl_hiuser.grid(columnspan=2,row=0,sticky="w",padx=10)
-    but_logout.grid(column=0,row=1,sticky="w",padx=10,pady=10)
+    but_logout.grid(column=0,row=1,sticky="w",pady=10)
+    but_disconnect.grid(column=1,row=1,sticky="w")
     lbl_welcome.grid(columnspan=2,row=2,pady=10,padx=10)
     lbl_province.grid(column=0,row=3,pady=4)
     input_province.grid(column=1,row=3,pady=4,sticky="w")
