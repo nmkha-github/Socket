@@ -205,20 +205,34 @@ def RegistrationPage():
 def send_date_province(date, province):
     client.sendall(date.encode('utf8'))
     client.sendall(province.encode('utf8'))
-def Search(): #Dùng socket để chỉnh
-    date=input_date.get()
-    province=input_province.get()
+    
+    
+def Search():  # Dùng socket để chỉnh
+    date = input_date.get()
+    province = input_province.get()
     try:
-        client.sendall("Search".encode('utf8')) 
+        request = "Search"
+        client.sendall(request.encode('utf8'))
         print(client.recv(1024).decode('utf8'))
+
         client.sendall(province.encode('utf8'))
         client.sendall(date.encode('utf8'))
+        data_recv = client.recv(1024).decode('utf8')
+        if "not found!" in data_recv:
+            lbl_resultprovince['text'] = data_recv
+            lbl_resultnewcases["text"] = ''
+            lbl_resultdeaths["text"] = ''
+            lbl_resulttotalcases["text"] = ''
+        else:
+            data_recv = json.loads(data_recv)
+            lbl_resultprovince["text"] = data_recv['province']
+            lbl_resultnewcases["text"] = data_recv['newCases']
+            lbl_resultdeaths["text"] = data_recv['deaths']
+            lbl_resulttotalcases["text"] = data_recv['cases']
     except:
         ServerDisconnectedPage()
-    lbl_resultprovince["text"]="Ho Chi Minh" #Chỉnh dữ liệu
-    lbl_resultnewcases["text"]="965"
-    lbl_resultdeaths["text"]="2132"
-    lbl_resulttotalcases["text"]="12312"
+        
+        
 def logOut():
     #Dùng socket để logout
     try:        #Nếu có thể gửi và nhận thì server vẫn còn sống
