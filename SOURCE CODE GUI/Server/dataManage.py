@@ -106,7 +106,6 @@ def get_API():
     return covid_data
 
 
-# Chức năng: update data (mỗi 60p server cần gọi hàm này)
 def update_data():
     fileName = os.getcwd() + '/data/'+DateToString(date.today()) + '.json'
     json_string = json.dumps(get_API(), ensure_ascii=False)
