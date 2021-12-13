@@ -132,6 +132,7 @@ def left(app,width,height): #left top app screen
     return app
 def refresh():
     connecteduser.delete(1.0,END)
+    
 def disconnectAll():
     #Socket
     print("Hello")
