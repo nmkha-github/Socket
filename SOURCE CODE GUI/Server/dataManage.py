@@ -22,7 +22,7 @@ def DateToString(date):
     date_str += str(date.day)
     return date_str
 
-def lcs(X, Y, m, n):
+def lcs(X, Y, m, n,type):
     L = [[0 for x in range(n+1)] for x in range(m+1)]
     for i in range(m+1):
         for j in range(n+1):
@@ -32,41 +32,61 @@ def lcs(X, Y, m, n):
                 L[i][j] = L[i-1][j-1] + 1
             else:
                 L[i][j] = max(L[i-1][j], L[i][j-1])
-    if(L[m][n]>=n/2):
-        return True
+    if(L[m][n]>=n/2 and type==1):
+        return L[m][n]
+    elif(type==0 and L[m][n]==1):
+        return 1
     else:
-        return False
+        return 0
     
 #để vầy cho ko lỗi để chạy cái search cái đã
-def SearchData(province, date):
-    fileName = os.getcwd() + '\data\\'+date+'.json'
-    try:
-        fi = open(fileName, "r", encoding="utf-8")
-        data = fi.read()
-        data = json.loads(data)
-        fi.close()
-        for provinceData in data:
-            if (provinceData['province'] == province):
-                return provinceData
-        return "Province not found!"
-    except:
-        return "Date not found!"
-    
-    
 # def SearchData(province, date):
 #     fileName = os.getcwd() + '\data\\'+date+'.json'
-#     fi = open(fileName, "r", encoding="utf-8")
-#     data = fi.read()
-#     data = json.loads(data)
-#     provinceToken=province.split()
-#     fi.close()
-#     for provinceData in data:
-#         provinceCheck=provinceData['province']
-#         CheckToken=provinceCheck.split()
-#         result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken))
-#         if(result==True):
-#             return provinceData['province']
-#     return "Province not found"
+#     try:
+#         fi = open(fileName, "r", encoding="utf-8")
+#         data = fi.read()
+#         data = json.loads(data)
+#         fi.close()
+#         for provinceData in data:
+#             if (provinceData['province'] == province):
+#                 return provinceData
+#         return "Province not found!"
+#     except:
+#         return "Date not found!"
+    
+    
+def SearchData(province, date):
+    fileName = os.getcwd() + '\data\\'+date+'.json'
+    fileViettat=os.getcwd() + '\data\\viettat.json'
+    fi = open(fileName, "r", encoding="utf-8")
+    fii=open(fileViettat,"r",encoding="utf-8")
+    data = fi.read()
+    data = json.loads(data)
+    data2=fii.read()
+    data2=json.loads(data2)
+    provinceToken=province.split()
+    fi.close()
+    fii.close()
+    res=0
+    lastres='Province not found'
+    for provinceData in data:
+        provinceCheck=provinceData['province']
+        CheckToken=provinceCheck.split()
+        result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken),1)
+        if(result!=0):
+            if(result>res):
+                res=result
+                lastres=provinceData['province']
+    if(lastres=='Province not found'):
+        for provinceData in data2:
+            abbreviationCheck=provinceData['abbreviation']
+            CheckToken=abbreviationCheck.split()
+            result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken),0)
+            if(result!=0):
+                if(result>res):
+                    res=result
+                    lastres=provinceData['province']             
+    return lastres
     # try:
     #     fi = open(fileName, "r", encoding="utf-8")
     #     data = fi.read()
