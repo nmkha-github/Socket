@@ -25,10 +25,25 @@ def convert_to_eng(text):   #chuyển tiếng việt có dấu thành không gi�
         #Trường hợp viết hoa
         output = re.sub(regex.upper(), replace.upper(), output)
     return output.upper()
+
+def check_del(token):
+    for x in ['HUYEN', 'XA']:
+        return True
+    return False
 def formatText(text):
     token=text.split()
     n=len(token)
     for i in range(n):
+        if (check_del(token[i])):
+            token[i] = ''
+            break
+        if (i > 0) and (convert_to_eng(token[i]) == 'PHO') and (convert_to_eng(token[i - 1]) == 'THANH'):
+            token[i] = ''
+            token[i - 1] = ''
+            break
+        if (convert_to_eng(token[i]) == 'HCM'):
+            token[i] = 'TP. HỒ CHÍ MINH'
+            break
         if(convert_to_eng(token[i])=='VN'):
             token[i]='CA NUOC'
             break
@@ -48,9 +63,8 @@ def formatText(text):
     fii=open(fileViettat,"r",encoding="utf-8")
     data2=fii.read()
     data2=json.loads(data2)
+    data2.sort(key = lambda x: len(x['abbreviation']), reverse=True)
     fii.close()
     for provinceData in data2:
-            res=res.replace(provinceData['abbreviation'],provinceData['province'])
+        res=res.replace(provinceData['abbreviation'],provinceData['province'])
     return res
-# print(convert_to_eng('Thành phố Hồ chí Minh'))
-#output: THANH PHO HO CHI MINH
