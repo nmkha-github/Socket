@@ -165,4 +165,5 @@ def runServer():
     MainPage() #Có socket xử lý tiếp
     app.mainloop()
 print(SearchData('Xin CHào Hồ Chí Minh Tươi đẹp','20211207'))
+vietTat_data()
 runServer()

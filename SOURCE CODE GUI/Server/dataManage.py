@@ -8,7 +8,7 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 Wiki_URL = 'https://vi.wikipedia.org/wiki/B%E1%BA%A3n_m%E1%BA%ABu:D%E1%BB%AF_li%E1%BB%87u_%C4%91%E1%BA%A1i_d%E1%BB%8Bch_COVID-19/S%E1%BB%91_ca_nhi%E1%BB%85m_theo_t%E1%BB%89nh_th%C3%A0nh_t%E1%BA%A1i_Vi%E1%BB%87t_Nam#cite_note-1'
 from convert import *
-
+VietTat_URL='https://vi.wikipedia.org/wiki/B%E1%BA%A3n_m%E1%BA%ABu:K%C3%BD_ki%E1%BB%87u_quy_%C6%B0%E1%BB%9Bc_c%C3%A1c_t%E1%BB%89nh_th%C3%A0nh_Vi%E1%BB%87t_Nam'
 
 # Đổi ngày thành string
 def DateToString(date):
@@ -76,7 +76,6 @@ def get_API():
     table = soup.find('table', attrs={'class': 'wikitable'})
     data_table = table.tbody.find_all('tr')
     data_table = data_table[1:len(data_table)-1]
-
     covid_data = []
     for row in data_table:
         row = row.find_all('td')
@@ -87,7 +86,20 @@ def get_API():
             'newCases': row[3].string[:-1],
         })
     return covid_data
-
+def get_VietTat():  #Lấy chữ viết tắt
+    HTMLtext = requests.get(VietTat_URL).text
+    soup = BeautifulSoup(HTMLtext, 'html.parser')
+    table = soup.find('table', attrs={'class': 'wikitable'})
+    data_table = table.tbody.find_all('tr')
+    data_table = data_table[1:len(data_table)-1]
+    viettat_data = []
+    for row in data_table:
+        row = row.find_all('td')
+        viettat_data.append({
+            'province': row[0].contents[0].string,
+            'abbreviation': row[1].string,
+        })
+    return viettat_data
 
 # Chức năng: update data (mỗi 60p server cần gọi hàm này)
 def update_data():
@@ -97,7 +109,12 @@ def update_data():
     fo.write(json_string)
     fo.close()
     return "Updated data successfully!" + str(datetime.today())
-
+def vietTat_data():
+    fileName = os.getcwd() + '/data/viettat.json'
+    json_string = json.dumps(get_VietTat(), ensure_ascii=False)
+    fo = open(fileName, "w", encoding="utf-8")
+    fo.write(json_string)
+    fo.close()
 
 def checkAccounts(username):
     fi = open(os.getcwd() + '/data/accounts.json', "r", encoding="utf-8")
