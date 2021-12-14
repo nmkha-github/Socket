@@ -22,23 +22,21 @@ def DateToString(date):
     date_str += str(date.day)
     return date_str
 
-def lcs(X, Y, m, n,type):
-    L = [[0 for x in range(n+1)] for x in range(m+1)]
+def lcs1(X, Y, m, n): #check viết tắt
+    L = [[0 for x in range(n+1)] for x in range(m+1)] 
     for i in range(m+1):
         for j in range(n+1):
             if i == 0 or j == 0:
                 L[i][j] = 0
-            elif convert_to_eng(X[i-1]) == convert_to_eng(Y[j-1]):
+            elif (Upper(X[i-1]) == Upper(Y[j-1])):
                 L[i][j] = L[i-1][j-1] + 1
             else:
                 L[i][j] = max(L[i-1][j], L[i][j-1])
-    if(L[m][n]>=n/2 and type==1):
+    if(L[m][n]>=n/2):
         return L[m][n]
-    elif(type==0 and L[m][n]==1):
-        return 1
     else:
         return 0
-    
+     
 #để vầy cho ko lỗi để chạy cái search cái đã
 # def SearchData(province, date):
 #     fileName = os.getcwd() + '\data\\'+date+'.json'
@@ -53,39 +51,23 @@ def lcs(X, Y, m, n,type):
 #         return "Province not found!"
 #     except:
 #         return "Date not found!"
-    
-    
 def SearchData(province, date):
     fileName = os.getcwd() + '\data\\'+date+'.json'
-    fileViettat=os.getcwd() + '\data\\viettat.json'
     fi = open(fileName, "r", encoding="utf-8")
-    fii=open(fileViettat,"r",encoding="utf-8")
     data = fi.read()
     data = json.loads(data)
-    data2=fii.read()
-    data2=json.loads(data2)
     provinceToken=province.split()
     fi.close()
-    fii.close()
     res=0
     lastres='Province not found'
     for provinceData in data:
         provinceCheck=provinceData['province']
         CheckToken=provinceCheck.split()
-        result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken),1)
+        result=lcs1(provinceToken,CheckToken,len(provinceToken),len(CheckToken))
         if(result!=0):
             if(result>res):
                 res=result
                 lastres=provinceData['province']
-    if(lastres=='Province not found'):
-        for provinceData in data2:
-            abbreviationCheck=provinceData['abbreviation']
-            CheckToken=abbreviationCheck.split()
-            result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken),0)
-            if(result!=0):
-                if(result>res):
-                    res=result
-                    lastres=provinceData['province']             
     return lastres
     # try:
     #     fi = open(fileName, "r", encoding="utf-8")
@@ -132,8 +114,11 @@ def get_VietTat():  #Lấy chữ viết tắt
     viettat_data = []
     for row in data_table:
         row = row.find_all('td')
+        province=row[0].contents[0].string
+        if(province=='Thành phố Hồ Chí Minh'):
+            province='TP. Hồ Chí Minh'
         viettat_data.append({
-            'province': row[0].contents[0].string,
+            'province': province,
             'abbreviation': row[1].string,
         })
     return viettat_data
@@ -193,3 +178,6 @@ def SignUp(username, password):
 
         return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
+testcase='Ai ở hcm auto đẹp trai như vn'
+testcase=formatText(testcase)
+print(SearchData(testcase,'20211207'))

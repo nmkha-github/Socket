@@ -179,5 +179,4 @@ def runServer():
     app.withdraw()
     MainPage() #Có socket xử lý tiếp
     app.mainloop()
-print(SearchData('Mấy thằng Hồ Chí Minh thông minh hơn dân Cần Thơ','20211207'))
 runServer()
