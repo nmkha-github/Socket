@@ -36,20 +36,37 @@ def lcs(X, Y, m, n):
         return True
     else:
         return False
+    
+#để vầy cho ko lỗi để chạy cái search cái đã
 def SearchData(province, date):
     fileName = os.getcwd() + '\data\\'+date+'.json'
-    fi = open(fileName, "r", encoding="utf-8")
-    data = fi.read()
-    data = json.loads(data)
-    provinceToken=province.split()
-    fi.close()
-    for provinceData in data:
-        provinceCheck=provinceData['province']
-        CheckToken=provinceCheck.split()
-        result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken))
-        if(result==True):
-            return provinceData['province']
-    return "Province not found"
+    try:
+        fi = open(fileName, "r", encoding="utf-8")
+        data = fi.read()
+        data = json.loads(data)
+        fi.close()
+        for provinceData in data:
+            if (provinceData['province'] == province):
+                return provinceData
+        return "Province not found!"
+    except:
+        return "Date not found!"
+    
+    
+# def SearchData(province, date):
+#     fileName = os.getcwd() + '\data\\'+date+'.json'
+#     fi = open(fileName, "r", encoding="utf-8")
+#     data = fi.read()
+#     data = json.loads(data)
+#     provinceToken=province.split()
+#     fi.close()
+#     for provinceData in data:
+#         provinceCheck=provinceData['province']
+#         CheckToken=provinceCheck.split()
+#         result=lcs(provinceToken,CheckToken,len(provinceToken),len(CheckToken))
+#         if(result==True):
+#             return provinceData['province']
+#     return "Province not found"
     # try:
     #     fi = open(fileName, "r", encoding="utf-8")
     #     data = fi.read()
@@ -101,7 +118,6 @@ def get_VietTat():  #Lấy chữ viết tắt
         })
     return viettat_data
 
-# Chức năng: update data (mỗi 60p server cần gọi hàm này)
 def update_data():
     fileName = os.getcwd() + '/data/'+DateToString(date.today()) + '.json'
     json_string = json.dumps(get_API(), ensure_ascii=False)

@@ -79,10 +79,24 @@ def handle_client(conn, addr):
             if request == "LogOut":
                 send_accepted_request(conn, request)
                 show_connections(conn, addr, "User (" + account + ") logged out.")
-            if request=="Search":
+            if request == "Search":
                 send_accepted_request(conn, request)
-                province,date=receive_province_date(conn)
-
+                province, date = receive_province_date(conn)
+                # handle cái string date một chút
+                # sau này tùy vào code client mà sửa lại sau
+                date_list = date.split("/")
+                date = date_list[2]
+                if len(date_list[1]) < 2:
+                    date += '0'
+                date += date_list[1]
+                if len(date_list[0]) < 2:
+                    date += '0'
+                date += date_list[0]
+                search_result = SearchData(province, date)
+                if (not('not found' in search_result)):
+                    search_result = json.dumps(
+                        search_result, ensure_ascii=False)
+                conn.sendall(search_result.encode('utf8'))
                 show_connections(conn, addr, "User (" + account + ") search.")
             if request == "":                           #Kiểm tra client còn sống hay không
                 send_accepted_request(conn, "Check live")
@@ -118,6 +132,7 @@ def left(app,width,height): #left top app screen
     return app
 def refresh():
     connecteduser.delete(1.0,END)
+    
 def disconnectAll():
     #Socket
     print("Hello")
