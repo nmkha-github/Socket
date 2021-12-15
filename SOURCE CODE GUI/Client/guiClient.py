@@ -9,7 +9,6 @@ from tkinter.ttk import *
 from PIL import ImageTk, Image  #Install Pillow 
 from datetime import datetime,timedelta
 #
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Trang hiển thị khi mất kết nối server
 def ServerDisconnectedPage():
     global disPage
@@ -27,6 +26,8 @@ def exit(page): #function tắt
     #Socket gửi request exit
     sys.exit()
 def ConnectServer():
+    global client
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     ip=input_ip.get()
     port=input_port.get()
     #Cảnh báo chưa nhập
@@ -102,6 +103,7 @@ def login():
         ServerDisconnectedPage()
 def disconnectServer(page):
     #Socket
+    client.close()
     page.withdraw()
     runClient()
 def LoginPage():
@@ -252,7 +254,7 @@ def MainPage():
     mainPage=center(mainPage,430,500)
     mainPage.resizable(width=False,height=False)
     lbl_hiuser=tk.Label(mainPage,text=f'Hi, {username}',font=("Helvetica", 10,"bold"),fg='black')
-    but_disconnect=tk.Button(mainPage,text="Disconnect",width=15,command=lambda: disconnectServer(MainPage))
+    but_disconnect=tk.Button(mainPage,text="Disconnect",width=15,command=lambda: disconnectServer(mainPage))
     lbl_welcome=tk.Label(mainPage,text="COVID 19 VIETNAM INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
     blank=tk.Label(loginPage,text="")
     global input_province
