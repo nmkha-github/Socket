@@ -103,6 +103,9 @@ def login():
         ServerDisconnectedPage()
 def disconnectServer(page):
     #Socket
+    request = "Disconnect"
+    client.sendall(request.encode('utf8'))
+    print(client.recv(1024).decode('utf8'))
     client.close()
     page.withdraw()
     runClient()
