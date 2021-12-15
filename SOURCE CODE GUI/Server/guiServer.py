@@ -85,13 +85,14 @@ def handle_client(conn, addr):
                 # handle cái string date một chút
                 # sau này tùy vào code client mà sửa lại sau
                 date_list = date.split("/")
-                date = date_list[2]
-                if len(date_list[1]) < 2:
-                    date += '0'
-                date += date_list[1]
-                if len(date_list[0]) < 2:
-                    date += '0'
-                date += date_list[0]
+                if len(date_list) == 3:
+                    date = date_list[2]
+                    if len(date_list[1]) < 2:
+                        date += '0'
+                    date += date_list[1]
+                    if len(date_list[0]) < 2:
+                        date += '0'
+                    date += date_list[0]
                 search_result = SearchData(province, date)
                 if (not('not found' in search_result)):
                     search_result = json.dumps(
