@@ -52,12 +52,12 @@ def SearchData(province, date):
         for provinceData in data:
             provinceCheck=provinceData['province']
             result=lcs(province, convert_to_eng(provinceCheck))
-            # print(provinceCheck, ' ', result)
+            print(provinceCheck, ' ', result)
             if(result > 0):
-                if (result / len(provinceCheck) * 100 > res):
+                if (result > res):
                     res = result / len(provinceCheck) * 100
                     lastres=provinceData
-                if (result / len(provinceCheck) * 100 == res) and (len(provinceCheck) > len(lastres['province'])):
+                elif (result == res) and (len(provinceCheck) > len(lastres['province'])):
                     res = result / len(provinceCheck) * 100
                     lastres=provinceData
         print('Match percent: ', res, '%')
@@ -156,6 +156,6 @@ def SignUp(username, password):
 
         return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
-testcase='thanh pho tin giaNg'
+testcase='Hồ Chí Minh'
 print(formatText(testcase))
 print(SearchData(testcase,'20211208'))

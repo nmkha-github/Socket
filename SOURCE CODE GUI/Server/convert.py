@@ -28,7 +28,8 @@ def convert_to_eng(text):   #chuyển tiếng việt có dấu thành không gi�
 
 def check_del(token):
     for x in ['HUYEN', 'XA']:
-        return True
+        if convert_to_eng(token) == x:
+            return True
     return False
 def formatText(text):
     token=text.split()
