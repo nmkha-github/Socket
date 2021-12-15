@@ -54,21 +54,13 @@ def SearchData(province, date):
             result=lcs(province, convert_to_eng(provinceCheck))
             print(provinceCheck, ' ', result)
             if(result > 0):
-<<<<<<< HEAD
-                if ((result / len(provinceCheck)) * 100 > res):
-                    res = (result / len(provinceCheck)) * 100
-                    lastres=provinceData
-                if ((result / len(provinceCheck)) * 100 == res) and (len(provinceCheck) > len(lastres['province'])):
-                    res = (result / len(provinceCheck)) * 100
-=======
                 if (result > res):
-                    res = result / len(provinceCheck) * 100
+                    res = result
                     lastres=provinceData
                 elif (result == res) and (len(provinceCheck) > len(lastres['province'])):
-                    res = result / len(provinceCheck) * 100
->>>>>>> 0930fadde2196182fde7e9bfeecddfe35d98406d
+                    res = result
                     lastres=provinceData
-        print('Match percent: ', res, '%')
+        print('Match percent: ', res / len(lastres['province']) * 100, '%')
         return lastres
     except:
         return "Date not found!"
@@ -164,6 +156,6 @@ def SignUp(username, password):
 
         return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
-testcase='Hồ Chí Minh'
+testcase='tôi muốn biết hồ chí minh'
 print(formatText(testcase))
 print(SearchData(testcase,'20211208'))
