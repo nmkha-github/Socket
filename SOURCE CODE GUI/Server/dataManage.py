@@ -52,13 +52,21 @@ def SearchData(province, date):
         for provinceData in data:
             provinceCheck=provinceData['province']
             result=lcs(province, convert_to_eng(provinceCheck))
-            # print(provinceCheck, ' ', result)
+            print(provinceCheck, ' ', result)
             if(result > 0):
+<<<<<<< HEAD
                 if ((result / len(provinceCheck)) * 100 > res):
                     res = (result / len(provinceCheck)) * 100
                     lastres=provinceData
                 if ((result / len(provinceCheck)) * 100 == res) and (len(provinceCheck) > len(lastres['province'])):
                     res = (result / len(provinceCheck)) * 100
+=======
+                if (result > res):
+                    res = result / len(provinceCheck) * 100
+                    lastres=provinceData
+                elif (result == res) and (len(provinceCheck) > len(lastres['province'])):
+                    res = result / len(provinceCheck) * 100
+>>>>>>> 0930fadde2196182fde7e9bfeecddfe35d98406d
                     lastres=provinceData
         print('Match percent: ', res, '%')
         return lastres

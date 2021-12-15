@@ -27,8 +27,9 @@ def convert_to_eng(text):   #chuyển tiếng việt có dấu thành không gi�
     return output.upper()
 
 def check_del(token):
-    for x in [convert_to_eng('HUYEN'), convert_to_eng('XA')]:
-        return True
+    for x in ['HUYEN', 'XA']:
+        if convert_to_eng(token) == x:
+            return True
     return False
 def formatText(text):
     token=text.split()
