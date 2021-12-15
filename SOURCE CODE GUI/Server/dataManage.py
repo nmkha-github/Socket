@@ -33,12 +33,12 @@ def lcs(X, Y):
                 L[i][j] = 0
             elif (X[i-1] == Y[j-1]):
                 L[i][j] = L[i-1][j-1] + 1
-                res=max(res,L[i][j])
+                #res=max(res,L[i][j])
             else:
-                L[i][j] = 0
+                L[i][j] = max(L[i-1][j],L[i][j-1])
     print(res)
-    if(float(res/n) >= 0.7):     #Tỉ lệ đúng 70%
-        return res
+    if(float(L[m][n]/n) >= 0.7):     #Tỉ lệ đúng 70%
+        return L[m][n]
     else:
         return 0
     
@@ -160,6 +160,6 @@ def SignUp(username, password):
 
         return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
-testcase='hồ chí minh'
+testcase='Hòa Bình'
 print(formatText(testcase))
 print(SearchData(testcase,'20211208'))
