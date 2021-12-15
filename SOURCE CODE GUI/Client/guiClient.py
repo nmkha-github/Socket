@@ -25,7 +25,6 @@ def center(app,width,height): #Center app screen
     return app
 def exit(page): #function tắt
     #Socket gửi request exit
-    page.destroy()
     sys.exit()
 def ConnectServer():
     ip=input_ip.get()
@@ -282,7 +281,7 @@ def MainPage():
     lbl_resultdeaths=tk.Label(mainPage,text="",font=("Helvetica", 13,"bold"),fg='red')         
     but_logout=tk.Button(mainPage,text="Logout",width=10,command=logOut)
     lbl_hiuser.grid(columnspan=2,row=0,sticky="w",padx=10)
-    but_logout.grid(column=0,row=1,sticky="w",pady=10,padx=10)
+    but_logout.grid(column=0,row=1,sticky="w",pady=10)
     but_disconnect.grid(column=1,row=1,sticky="w")
     lbl_welcome.grid(columnspan=2,row=2,pady=10,padx=10)
     lbl_province.grid(column=0,row=3,pady=4)

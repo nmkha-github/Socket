@@ -37,7 +37,7 @@ def lcs(X, Y):
             else:
                 L[i][j] = 0
     if(float(res/n) >= 0.7):     #Tỉ lệ đúng 70%
-        return float(res/n)*100
+        return res
     else:
         return 0
     
@@ -49,22 +49,21 @@ def SearchData(province, date):
         data = json.loads(data)
         fi.close()
         res=0
-        lastres='Province not found'
+        lastres='Province not found!'
         province = convert_to_eng(formatText(province))
-        #print(province)
+        percent_limit = float(75)       #Chính xác 75%
         for provinceData in data:
             provinceCheck=provinceData['province']
             result=lcs(province, convert_to_eng(provinceCheck))
-            #print(province,convert_to_eng(provinceCheck))
-            #print(provinceCheck, ' ', result)
-            if(result > 0):
-                if (result > res):
-                    res = result
-                    lastres=provinceData
+            print(provinceCheck, ' ', result)
+            if (result > 0) and (result + 3 * int(len(provinceCheck) / 11)) / len(provinceCheck) >= percent_limit / 100:
+                if ((result + 3 * int(len(provinceCheck) / 11)) / len(provinceCheck) > res):
+                    res = (result + 3 * int(len(provinceCheck) / 11)) / len(provinceCheck)
+                    lastres = provinceData
                 elif (result == res) and (len(provinceCheck) > len(lastres['province'])):
                     res = result
-                    lastres=provinceData
-        print('Match percent: ', res , '%')
+                    lastres = provinceData
+        print('Match percent: ', res * 100, '%')
         return lastres
     except:
         return "Date not found!"
@@ -162,4 +161,4 @@ def SignUp(username, password):
     return "Sign up unsuccessfully! (Username exists)"
 testcase='Hồ Chí Minh'
 print(formatText(testcase))
-print(SearchData(testcase,'20211213'))
+print(SearchData(testcase,'20211208'))
