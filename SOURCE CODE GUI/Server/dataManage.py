@@ -25,17 +25,19 @@ def DateToString(date):
 def lcs(X, Y): 
     m = len(X)
     n = len(Y)
-    L = [[0 for x in range(n+1)] for x in range(m+1)] 
+    L = [[0 for x in range(n+1)] for y in range(m+1)] 
+    res=0
     for i in range(m+1):
         for j in range(n+1):
             if i == 0 or j == 0:
                 L[i][j] = 0
-            elif (Upper(X[i-1]) == Upper(Y[j-1])):
+            elif (X[i-1] == Y[j-1]):
                 L[i][j] = L[i-1][j-1] + 1
+                res=max(res,L[i][j])
             else:
-                L[i][j] = max(L[i-1][j], L[i][j-1])
-    if(float(L[m][n]/n) >= 0.7):     #Tỉ lệ đúng 70%
-        return float(L[m][n]/n)*100
+                L[i][j] = 0
+    if(float(res/n) >= 0.7):     #Tỉ lệ đúng 70%
+        return float(res/n)*100
     else:
         return 0
     
@@ -49,10 +51,11 @@ def SearchData(province, date):
         res=0
         lastres='Province not found'
         province = convert_to_eng(formatText(province))
-        print(province)
+        #print(province)
         for provinceData in data:
             provinceCheck=provinceData['province']
             result=lcs(province, convert_to_eng(provinceCheck))
+            #print(province,convert_to_eng(provinceCheck))
             #print(provinceCheck, ' ', result)
             if(result > 0):
                 if (result > res):
@@ -157,6 +160,6 @@ def SignUp(username, password):
 
         return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
-testcase='Mấy anh hcm ơi'
+testcase='Hồ Chí Minh'
 print(formatText(testcase))
 print(SearchData(testcase,'20211213'))
