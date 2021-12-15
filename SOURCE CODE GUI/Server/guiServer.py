@@ -75,6 +75,7 @@ def handle_client(conn, addr):
                 show_connections(conn, addr, status)
             if request == "Disconnect":
                 send_accepted_request(conn, request)
+                show_connections(conn, addr, "Client has been disconnected")
                 break
             if request == "LogOut":
                 send_accepted_request(conn, request)
