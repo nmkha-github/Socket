@@ -27,20 +27,19 @@ def convert_to_eng(text):   #chuyển tiếng việt có dấu thành không gi�
     return output.upper()
 
 def check_del(token):
-    for x in ['HUYEN', 'XA']:
+    for x in [convert_to_eng('HUYEN'), convert_to_eng('XA')]:
         return True
     return False
 def formatText(text):
     token=text.split()
     n=len(token)
+    print(token)
     for i in range(n):
-        if (check_del(token[i])):
-            token[i] = ''
-            break
+        if(check_del(convert_to_eng(token[i]))):
+            token[i]=''
         if (i > 0) and (convert_to_eng(token[i]) == 'PHO') and (convert_to_eng(token[i - 1]) == 'THANH'):
             token[i] = ''
             token[i - 1] = ''
-            break
         if (convert_to_eng(token[i]) == 'HCM'):
             token[i] = 'TP. HỒ CHÍ MINH'
             break
@@ -58,7 +57,9 @@ def formatText(text):
             token[i]='BA RIA -'
             token[i+1]='VUNG TAU'
             break
+    print(token)
     res=' '.join(token)
+    res=Upper(res)
     fileViettat=os.getcwd() + '\data\\viettat.json'
     fii=open(fileViettat,"r",encoding="utf-8")
     data2=fii.read()
