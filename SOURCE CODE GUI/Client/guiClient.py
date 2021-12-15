@@ -210,6 +210,9 @@ def send_date_province(date, province):
 def Search():  # Dùng socket để chỉnh
     date = input_date.get()
     province = input_province.get()
+    if(province==''):
+        messagebox.showinfo("Alert","Please type a province.")
+        return
     try:
         request = "Search"
         client.sendall(request.encode('utf8'))
@@ -257,7 +260,7 @@ def MainPage():
     input_province=tk.Entry(mainPage,width=40,font=("Helvetica", 10))
     lbl_date=tk.Label(mainPage,text="Date: ",font=("Helvetica", 10,"bold"),fg='black')
     global input_date
-    input_date=ttk.Combobox(mainPage,width=38,font=("Helvetica", 10))
+    input_date=ttk.Combobox(mainPage,width=38,font=("Helvetica", 10),state="readonly")
     date_time_now = datetime.now().strftime("%d/%m/%Y")
     data_time_yesterday=(datetime.now()-timedelta(1)).strftime("%d/%m/%Y")
     data_time_previous=(datetime.now()-timedelta(2)).strftime("%d/%m/%Y")
@@ -281,7 +284,7 @@ def MainPage():
     lbl_resultdeaths=tk.Label(mainPage,text="",font=("Helvetica", 13,"bold"),fg='red')         
     but_logout=tk.Button(mainPage,text="Logout",width=10,command=logOut)
     lbl_hiuser.grid(columnspan=2,row=0,sticky="w",padx=10)
-    but_logout.grid(column=0,row=1,sticky="w",pady=10)
+    but_logout.grid(column=0,row=1,sticky="w",pady=10,padx=10)
     but_disconnect.grid(column=1,row=1,sticky="w")
     lbl_welcome.grid(columnspan=2,row=2,pady=10,padx=10)
     lbl_province.grid(column=0,row=3,pady=4)

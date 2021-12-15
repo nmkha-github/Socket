@@ -160,6 +160,6 @@ def SignUp(username, password):
 
         return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
-testcase='Hòa Bình'
+testcase='Hồ Chí Minh'
 print(formatText(testcase))
 print(SearchData(testcase,'20211208'))
