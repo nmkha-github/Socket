@@ -8,12 +8,7 @@ from tkinter import *
 from tkinter.ttk import *
 from PIL import ImageTk, Image  #Install Pillow 
 from datetime import datetime,timedelta
-#
-# Trang hiển thị khi mất kết nối server
-def ServerDisconnectedPage():
-    global disPage
-    disPage = Toplevel()
-    #Thiết kế
+
     
 def center(app,width,height): #Center app screen
     screen_width=app.winfo_screenwidth()
@@ -22,9 +17,13 @@ def center(app,width,height): #Center app screen
     y=(screen_height/2) - (height/2)
     app.geometry(f'{width}x{height}+{int(x)}+{int(y)}')
     return app
+
+
 def exit(page): #function tắt
     #Socket gửi request exit
     sys.exit()
+    
+    
 def ConnectServer():
     global client
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -46,6 +45,8 @@ def ConnectServer():
     except:
         lbl_alert["text"]="Failed to connect, please type again." #IP Port ko đúng
         print("SERVER not found")
+        
+        
 def runClient():
     global app
     app = Tk()
@@ -70,12 +71,47 @@ def runClient():
     but_connect.pack(pady=6)
     lbl_alert.pack()
     app.mainloop()
+    
+    
+def disconnectServer(page):
+    request = "Disconnect"
+    client.sendall(request.encode('utf8'))
+    print(client.recv(1024).decode('utf8'))
+    client.close()
+    page.withdraw()
+    runClient()
+
+
+def ServerDisconnectedPage():
+    global disPage
+    disPage = Toplevel()
+    disPage.title("COVID 19 VIETNAM INFORMATION")
+    disPage.resizable(width=False, height=False)
+    # set background image
+    c = Canvas(disPage, height=200, width=200)
+    fileName = os.path.dirname(os.path.abspath(
+        __file__)) + '\\background_disconnectpage.png'
+    img = ImageTk.PhotoImage(file=fileName)
+    disPage.geometry(f'{img.width()}x{img.height()}')
+    bg_label = Label(disPage, image=img)
+    bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+    c.pack()
+    reconnectBtn = tk.Button(disPage, text="Reload", font=(
+        "Helvetica", 10, "bold"), fg='black', bg='#af926a', command=disconnectServer(disPage))
+    reconnectBtn.place(width=80, height=40, x=190, y=350)
+    disPage.mainloop()
+    
+   
 def sign_up_button():      
     loginPage.withdraw()
     RegistrationPage()
+    
+    
 def send_account_password(username, password):
     client.sendall(username.encode('utf8'))
     client.sendall(password.encode('utf8'))
+    
+    
 def login():
     global username
     username=input_user_login.get() #Để tạo Hi, username trong màn hình chính
@@ -101,14 +137,8 @@ def login():
         MainPage()
     except:
         ServerDisconnectedPage()
-def disconnectServer(page):
-    #Socket
-    request = "Disconnect"
-    client.sendall(request.encode('utf8'))
-    print(client.recv(1024).decode('utf8'))
-    client.close()
-    page.withdraw()
-    runClient()
+
+        
 def LoginPage():
     global loginPage
     loginPage=Toplevel()
@@ -140,9 +170,13 @@ def LoginPage():
     but_log.grid(row=5,column=1)
     but_disconnect.grid(row=6,column=0,padx=10,pady=5)
     loginPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
+    
+    
 def back_to_login():
     registrationPage.withdraw()
     LoginPage()
+    
+    
 def register():  #Socket đăng ký
     username=input_user_signup.get()
     password=input_pass_signup.get()
@@ -171,6 +205,7 @@ def register():  #Socket đăng ký
     except:
         lbl_registeralert["text"]="Fail to sign up" #Đăng ký thất bại
         ServerDisconnectedPage()
+    
     
 def RegistrationPage():
     global registrationPage
@@ -207,6 +242,8 @@ def RegistrationPage():
     but_register.grid(row=6,column=1)
     but_disconnect.grid(row=7,column=0)
     registrationPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
+    
+    
 def send_date_province(date, province):
     client.sendall(date.encode('utf8'))
     client.sendall(province.encode('utf8'))
@@ -250,6 +287,8 @@ def logOut():
         LoginPage()
     except:
         ServerDisconnectedPage()
+        
+        
 def MainPage():
     global mainPage
     mainPage=Toplevel()
