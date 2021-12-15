@@ -36,6 +36,7 @@ def lcs(X, Y):
                 res=max(res,L[i][j])
             else:
                 L[i][j] = 0
+    print(res)
     if(float(res/n) >= 0.7):     #Tỉ lệ đúng 70%
         return res
     else:
@@ -56,9 +57,9 @@ def SearchData(province, date):
             provinceCheck=provinceData['province']
             result=lcs(province, convert_to_eng(provinceCheck))
             print(provinceCheck, ' ', result)
-            if (result > 0) and (result + 3 * int(len(provinceCheck) / 11)) / len(provinceCheck) >= percent_limit / 100:
-                if ((result + 3 * int(len(provinceCheck) / 11)) / len(provinceCheck) > res):
-                    res = (result + 3 * int(len(provinceCheck) / 11)) / len(provinceCheck)
+            if (result > 0) and (result + 3 * int(len(provinceCheck) / 12)) / len(provinceCheck) >= percent_limit / 100:
+                if ((result + 3 * int(len(provinceCheck) / 12)) / len(provinceCheck) > res):
+                    res = (result + 3 * int(len(provinceCheck) / 12)) / len(provinceCheck)
                     lastres = provinceData
                 elif (result == res) and (len(provinceCheck) > len(lastres['province'])):
                     res = result
@@ -159,6 +160,6 @@ def SignUp(username, password):
 
         return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
-testcase='Hồ Chí Minh'
+testcase='hồ chí minh'
 print(formatText(testcase))
 print(SearchData(testcase,'20211208'))
