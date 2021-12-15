@@ -187,7 +187,7 @@ def RegistrationPage():
     input_pass_signup=tk.Entry(registrationPage,width=40,font=("Helvetica", 10),show="*")
     input_copass_signup=tk.Entry(registrationPage,width=40,font=("Helvetica", 10),show="*")
     but_register=tk.Button(registrationPage,text="REGISTER",width=20,command=register) #Socket
-    but_disconnect=tk.Button(registrationPage,text="Disconnect",width=15,command=lambda: disconnectServer(loginPage))
+    but_disconnect=tk.Button(registrationPage,text="Disconnect",width=15,command=lambda: disconnectServer(registrationPage))
     but_backToLogin=tk.Button(registrationPage,text="Back to login",width=15,command=back_to_login)
     registrationPage.bind('<Return>',lambda e:register()) #Bấm enter
     lbl_login.grid(column=1,row=1)
@@ -252,7 +252,7 @@ def MainPage():
     mainPage=center(mainPage,430,500)
     mainPage.resizable(width=False,height=False)
     lbl_hiuser=tk.Label(mainPage,text=f'Hi, {username}',font=("Helvetica", 10,"bold"),fg='black')
-    but_disconnect=tk.Button(mainPage,text="Disconnect",width=15,command=lambda: disconnectServer(loginPage))
+    but_disconnect=tk.Button(mainPage,text="Disconnect",width=15,command=lambda: disconnectServer(MainPage))
     lbl_welcome=tk.Label(mainPage,text="COVID 19 VIETNAM INFORMATION",font=("Helvetica", 13,"bold"),fg='black')
     blank=tk.Label(loginPage,text="")
     global input_province
