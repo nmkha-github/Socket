@@ -100,6 +100,9 @@ def handle_client(conn, addr):
                         search_result, ensure_ascii=False)
                 conn.sendall(search_result.encode('utf8'))
                 show_connections(conn, addr, "User (" + account + ") search.")
+            if request == 'Reconnect':
+                send_accepted_request(conn, request)
+                show_connections(conn, addr, "Client Reconnect.")
             if request == "":                           #Kiểm tra client còn sống hay không
                 send_accepted_request(conn, "Check live")
         except:             #nếu có lỗi do client ngắt kết nối                          
