@@ -71,6 +71,7 @@ def handle_client(conn, addr):
     print("Address: ", addr)
     show_connections(conn, addr, "Connected")
     account = ''
+    isReconnected = False
     while True:
         try:
             request = conn.recv(1024).decode('utf8')  # Nhận request liên tục
@@ -119,12 +120,16 @@ def handle_client(conn, addr):
                 conn.sendall(search_result.encode('utf8'))
                 show_connections(conn, addr, "User (" + account + ") search.")
             if request == 'Reconnect':
+                isReconnected = True
                 send_accepted_request(conn, request)
-                show_connections(conn, addr, "Client Reconnect.")
+                show_connections(conn, addr, "Client try to reconnect.")
             if request == "":  # Kiểm tra client còn sống hay không
                 send_accepted_request(conn, "Check live")
         except:  # nếu có lỗi do client ngắt kết nối
-            show_connections(conn, addr, "Client has been shutdown.")
+            if (isReconnected == False):
+                show_connections(conn, addr, "Client has been shutdown.")
+            else:
+                isReconnected = True
             break
     conn.close()
 
