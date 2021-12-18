@@ -76,6 +76,8 @@ def handle_client(conn, addr):
     while running:
         try:
             request = conn.recv(1024).decode('utf8')  # Nhận request liên tục
+            if running == False:
+                break
             print(len(request))
             if request == "SignIn":
                 send_accepted_request(conn, request)
