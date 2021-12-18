@@ -248,12 +248,13 @@ latestUpdateHour = -1
 
 def update60m():
     global latestUpdateHour
-    threading.Timer(1, update60m).start()
     if latestUpdateHour != datetime.today().hour:
         print("Check time update")
         latestUpdateHour = datetime.today().hour
         update_data()
 
+        
+threading.Timer(1, update60m).start()
 
 update60m()
 runServer()
