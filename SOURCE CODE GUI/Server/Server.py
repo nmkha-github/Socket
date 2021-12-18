@@ -1,6 +1,5 @@
 import socket
 import os
-import signal
 import threading
 import sys
 import tkinter as tk
@@ -23,12 +22,7 @@ HOST = s.getsockname()[0]
 
 
 def exit(page):
-    # Socket gửi request exit
-    # s.close()
-    # page.destroy()
-    
     sys.exit()
-
 
 def receive_account_password(conn):
     acc = conn.recv(1024).decode('utf8')
