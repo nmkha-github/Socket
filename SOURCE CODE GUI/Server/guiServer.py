@@ -23,8 +23,8 @@ HOST = s.getsockname()[0]
 
 def exit(page):
     # Socket gửi request exit
-    s.close()
-    page.destroy()
+    # s.close()
+    # page.destroy()
     sys.exit()
 
 
