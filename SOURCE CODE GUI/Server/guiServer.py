@@ -186,7 +186,7 @@ def MainPage():
     global mainPage
     mainPage = Toplevel()
     mainPage.title("COVID 19 SERVER MANAGEMENT")
-    mainPage = left(mainPage, 715, 500)
+    mainPage = left(mainPage, 740, 500)
     mainPage.geometry()
     mainPage.resizable(width=False, height=False)
     lbl_welcome = tk.Label(mainPage, text="COVID 19 SERVER MANAGEMENT", font=(
@@ -215,7 +215,7 @@ def MainPage():
     lbl_connecteduser.grid(column=1, row=3)
     global connecteduser
     connecteduser = tkscrolled.ScrolledText(mainPage, font=(
-        "Helvetica", 13), bg="white", height=13, width=75)
+        "Helvetica", 13), bg="white", height=13, width=76)
     connecteduser.grid(row=4, column=1, pady=10, padx=10)
     frame_but.grid(row=2, column=1, sticky="w")
     mainPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
