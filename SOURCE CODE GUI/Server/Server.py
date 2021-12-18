@@ -1,5 +1,6 @@
 import socket
 import os
+import signal
 import threading
 import sys
 import tkinter as tk
@@ -23,7 +24,9 @@ HOST = s.getsockname()[0]
 
 def exit(page):
     # Socket gửi request exit
-    page.destroy()
+    # s.close()
+    # page.destroy()
+    
     sys.exit()
 
 
@@ -96,6 +99,7 @@ def handle_client(conn, addr):
             if request == "Disconnect":
                 send_accepted_request(conn, request)
                 show_connections(conn, addr, "Client has been disconnected")
+                my_clients.remove(addr)
                 break
             if request == "LogOut":
                 send_accepted_request(conn, request)
@@ -140,8 +144,6 @@ def handle_client(conn, addr):
 print("Server: ", s.getsockname())
 
 my_clients = []
-
-
 def live_server():
     global s
     while True:
@@ -155,8 +157,6 @@ def live_server():
             show_connections(conn, addr, "Client has been disconnected.")
 
 #
-
-
 def center(app, width, height):  # Center app screen
     screen_width = app.winfo_screenwidth()
     screen_height = app.winfo_screenheight()-200
@@ -174,10 +174,7 @@ def left(app, width, height):  # left top app screen
 def refresh():
     connecteduser.delete(1.0, END)
 
-
 running = True
-
-
 def disconnectAll():
     global running
     global my_clients
@@ -192,7 +189,6 @@ def MainPage():
     global mainPage
     mainPage = Toplevel()
     mainPage.title("COVID 19 SERVER MANAGEMENT")
-    mainPage.iconbitmap(bitmap=os.getcwd() + "\\logo.ico")
     mainPage = left(mainPage, 740, 500)
     mainPage.geometry()
     mainPage.resizable(width=False, height=False)
@@ -227,6 +223,7 @@ def MainPage():
     frame_but.grid(row=2, column=1, sticky="w")
     mainPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
     # Bật live server, lắng nghe kết nối clients
+    global thr
     thr = threading.Thread(target=live_server)
     thr.daemon = True
     thr.start()
@@ -242,19 +239,4 @@ def runServer():
     MainPage()  # Có socket xử lý tiếp
     app.mainloop()
 
-
-latestUpdateHour = -1
-
-
-def update60m():
-    global latestUpdateHour
-    if latestUpdateHour != datetime.today().hour:
-        print("Check time update")
-        latestUpdateHour = datetime.today().hour
-        update_data()
-
-        
-threading.Timer(1, update60m).start()
-
-update60m()
 runServer()
