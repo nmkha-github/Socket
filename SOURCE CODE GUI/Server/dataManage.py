@@ -33,10 +33,8 @@ def lcs(X, Y):
                 L[i][j] = 0
             elif (X[i-1] == Y[j-1]):
                 L[i][j] = L[i-1][j-1] + 1
-                #res=max(res,L[i][j])
             else:
                 L[i][j] = max(L[i-1][j],L[i][j-1])
-    print(res)
     if(float(L[m][n]/n) >= 0.7):     #Tỉ lệ đúng 70%
         return L[m][n]
     else:
@@ -56,7 +54,7 @@ def SearchData(province, date):
         for provinceData in data:
             provinceCheck=provinceData['province']
             result=lcs(province, convert_to_eng(provinceCheck))
-            print(provinceCheck, ' ', result)
+            # print(provinceCheck, ' ', result)
             if (result > 0) and (result + 3 * int(len(provinceCheck) / 12)) / len(provinceCheck) >= percent_limit / 100:
                 if ((result + 3 * int(len(provinceCheck) / 12)) / len(provinceCheck) > res):
                     res = (result + 3 * int(len(provinceCheck) / 12)) / len(provinceCheck)
@@ -160,6 +158,6 @@ def SignUp(username, password):
 
         return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
-testcase='Hồ Chí Minh'
-print(formatText(testcase))
-print(SearchData(testcase,'20211208'))
+# testcase='Hồ Chí Minh'
+# print(formatText(testcase))
+# print(SearchData(testcase,'20211208'))

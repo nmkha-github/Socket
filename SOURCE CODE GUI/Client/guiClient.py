@@ -90,10 +90,9 @@ def disconnectServer(page):
 
 def tempFuncion():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect((ip, int(port)))
-    request = "Reconnect"
-    client.sendall(request.encode('utf8'))
-    print(client.recv(1024).decode('utf8'))
+    # request = "Reconnect"
+    # client.sendall(request.encode('utf8'))
+    # print(client.recv(1024).decode('utf8'))
 
 
 def Reconnect():
@@ -421,6 +420,5 @@ def MainPage():
     lbl_resultnewcases.grid(column=1, row=12, sticky="w")
     but_exit.grid(column=1, row=13, sticky="w", padx=50, pady=20)
     mainPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
-
 
 runClient()

@@ -12,13 +12,12 @@ import tkinter.scrolledtext as tkscrolled
 from PIL import ImageTk, Image  # Install Pillow
 from dataManage import *
 #
-HOST = '127.0.0.1'
 PORT = 8000
 #
-
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((HOST, PORT))
+s.bind((socket.gethostname(), PORT))
 s.listen()
+HOST = s.getsockname()[0]
 #
 
 
@@ -68,14 +67,16 @@ def show_connections(conn, addr, status, color="Black"):
 
 
 def handle_client(conn, addr):
+    global running
+    running = True
     print("Address: ", addr)
     show_connections(conn, addr, "Connected")
     account = ''
     isReconnected = False
-    while True:
+    while running:
         try:
             request = conn.recv(1024).decode('utf8')  # Nhận request liên tục
-            print(request)
+            print(len(request))
             if request == "SignIn":
                 send_accepted_request(conn, request)
                 account, password = receive_account_password(conn)
@@ -122,7 +123,7 @@ def handle_client(conn, addr):
             if request == 'Reconnect':
                 isReconnected = True
                 send_accepted_request(conn, request)
-                show_connections(conn, addr, "Client try to reconnect.")
+                show_connections(conn, addr, "Client reconnected.")
             if request == "":  # Kiểm tra client còn sống hay không
                 send_accepted_request(conn, "Check live")
         except:  # nếu có lỗi do client ngắt kết nối
@@ -137,12 +138,13 @@ def handle_client(conn, addr):
 # xử lí đa luồng
 print("Server: ", s.getsockname())
 
-
+my_clients = []
 def live_server():
     global s
     while True:
         try:
             conn, addr = s.accept()
+            my_clients.append(addr)
             thr = threading.Thread(target=handle_client, args=(conn, addr))
             thr.daemon = True
             thr.start()
@@ -168,10 +170,14 @@ def left(app, width, height):  # left top app screen
 def refresh():
     connecteduser.delete(1.0, END)
 
-
+running = True
 def disconnectAll():
-    # Socket
-    print("Hello")
+    global running
+    global my_clients
+    running = False
+    for client in my_clients:
+        show_connections(False, client, 'Client has been disconnected.')
+        my_clients.remove(client)
 
 
 def MainPage():
@@ -226,6 +232,5 @@ def runServer():
     app.withdraw()
     MainPage()  # Có socket xử lý tiếp
     app.mainloop()
-
 
 runServer()
