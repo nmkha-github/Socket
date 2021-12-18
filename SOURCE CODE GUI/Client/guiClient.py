@@ -116,7 +116,11 @@ def ServerDisconnectedPage():
     fileName = os.path.dirname(os.path.abspath(
         __file__)) + '\\background_disconnectpage.png'
     img = ImageTk.PhotoImage(file=fileName)
-    disPage.geometry(f'{img.width()}x{img.height()}')
+    screen_width = app.winfo_screenwidth()      #center disconnected page
+    screen_height = app.winfo_screenheight()-200
+    x = (screen_width/2) - (img.width()/2)
+    y = (screen_height/2) - (img.height()/2)
+    disPage.geometry(f'{img.width()}x{img.height()}+{int(x)}+{int(y)}')
     bg_label = Label(disPage, image=img)
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
     c.pack()
