@@ -151,7 +151,6 @@ def live_server():
         except:
             show_connections(conn, addr, "Client has been disconnected.")
 
-
 #
 def center(app, width, height):  # Center app screen
     screen_width = app.winfo_screenwidth()
@@ -175,7 +174,8 @@ def disconnectAll():
     global running
     global my_clients
     running = False
-    for client in my_clients:
+    while len(my_clients) > 0:
+        client = my_clients[len(my_clients) - 1]
         show_connections(False, client, 'Client has been disconnected.')
         my_clients.remove(client)
 
