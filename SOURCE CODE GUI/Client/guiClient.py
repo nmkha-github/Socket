@@ -9,7 +9,9 @@ from tkinter import *
 from tkinter.ttk import *
 from PIL import ImageTk, Image  # Install Pillow
 from datetime import datetime, timedelta
-
+abspath = os.path.abspath(__file__) #Sửa lỗi path
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 def center(app, width, height):  # Center app screen
     screen_width = app.winfo_screenwidth()
@@ -52,6 +54,8 @@ def ConnectServer():
 def runClient():
     global app
     app = Tk()
+    img = PhotoImage(file='logo.png')
+    app.iconphoto(True,img)
     app.title('COVID 19 VIETNAM INFORMATION')
     app = center(app, 500, 170)
     # app.geometry('500x100')
