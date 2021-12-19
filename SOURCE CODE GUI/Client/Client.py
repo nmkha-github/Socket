@@ -378,17 +378,25 @@ def MainPage():
     lbl_date = tk.Label(mainPage, text="Date: ", font=(
         "Helvetica", 10, "bold"), fg='black')
     global input_date
-    # input_date = ttk.Combobox(mainPage, width=38, font=(
-    #     "Helvetica", 10), state="readonly")
-    input_date=tk.Entry(mainPage, width=40, font=("Helvetica", 10))
+    input_date = ttk.Combobox(mainPage, width=38, font=(
+         "Helvetica", 10))
+    #input_date=tk.Entry(mainPage, width=40, font=("Helvetica", 10))
     start_date = date(2021, 12, 19).strftime("%d/%m/%Y")
     end_date = date(2021,12,24).strftime("%d/%m/%Y")
     date_time_now = datetime.now().strftime("%d/%m/%Y")
     data_time_yesterday = (datetime.now()-timedelta(1)).strftime("%d/%m/%Y")
     data_time_previous = (datetime.now()-timedelta(2)).strftime("%d/%m/%Y")
+    valueDate=[date_time_now]
     # input_date['value'] = (
     #     date_time_now, data_time_yesterday, data_time_previous)
-    # input_date.current(0)
+    delta = timedelta(days=1)
+    temp_date=date(2021, 12, 19)
+    temp1_date=date(2021, 12, 24)
+    while temp1_date >= temp_date:
+        valueDate.append(str(temp1_date.strftime("%d/%m/%Y")))
+        temp1_date -= delta
+    input_date['value']=valueDate
+    input_date.current(0)
     but_search = tk.Button(mainPage, text="Search", width=10, command=Search)
     lbl_result = tk.Label(mainPage, text="Result", font=(
         "Helvetica", 13, "bold"), fg='black')  # Hàm search
