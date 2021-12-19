@@ -1,6 +1,8 @@
 import socket
 import os
 import threading
+import schedule
+import time
 import sys
 import tkinter as tk
 from datetime import datetime
@@ -23,6 +25,7 @@ HOST = s.getsockname()[0]
 
 def exit(page):
     sys.exit()
+
 
 def receive_account_password(conn):
     acc = conn.recv(1024).decode('utf8')
@@ -138,6 +141,8 @@ def handle_client(conn, addr):
 print("Server: ", s.getsockname())
 
 my_clients = []
+
+
 def live_server():
     global s
     while True:
@@ -151,6 +156,8 @@ def live_server():
             show_connections(conn, addr, "Client has been disconnected.")
 
 #
+
+
 def center(app, width, height):  # Center app screen
     screen_width = app.winfo_screenwidth()
     screen_height = app.winfo_screenheight()-200
@@ -168,7 +175,10 @@ def left(app, width, height):  # left top app screen
 def refresh():
     connecteduser.delete(1.0, END)
 
+
 running = True
+
+
 def disconnectAll():
     global running
     global my_clients
@@ -183,6 +193,7 @@ def MainPage():
     global mainPage
     mainPage = Toplevel()
     mainPage.title("COVID 19 SERVER MANAGEMENT")
+    mainPage.iconbitmap(bitmap=os.getcwd() + "\\logo.ico")
     mainPage = left(mainPage, 740, 500)
     mainPage.geometry()
     mainPage.resizable(width=False, height=False)
@@ -233,4 +244,16 @@ def runServer():
     MainPage()  # Có socket xử lý tiếp
     app.mainloop()
 
+
+def update60m():
+    update_data()
+    schedule.every().hours.do(update_data)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+
+thr1 = threading.Thread(target=update60m)
+thr1.daemon = True
+thr1.start()
 runServer()

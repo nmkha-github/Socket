@@ -51,11 +51,18 @@ def ConnectServer():
         print("SERVER not found")
 
 
+boolcheck = True
+
+
 def runClient():
     global app
     app = Tk()
-    img = PhotoImage(file='logo.png')
-    app.iconphoto(True,img)
+    global boolcheck
+    if boolcheck:
+        img = PhotoImage(file=os.path.dirname(os.path.abspath(
+            __file__)) + '\\logo.png')
+        app.iconphoto(True, img)
+        boolcheck = False
     app.title('COVID 19 VIETNAM INFORMATION')
     app = center(app, 500, 170)
     # app.geometry('500x100')
