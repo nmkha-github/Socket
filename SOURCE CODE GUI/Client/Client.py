@@ -8,7 +8,7 @@ from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import *
 from PIL import ImageTk, Image  # Install Pillow
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 abspath = os.path.abspath(__file__) #Sửa lỗi path
 dname = os.path.dirname(abspath)
 os.chdir(dname)
@@ -378,18 +378,21 @@ def MainPage():
     lbl_date = tk.Label(mainPage, text="Date: ", font=(
         "Helvetica", 10, "bold"), fg='black')
     global input_date
-    input_date = ttk.Combobox(mainPage, width=38, font=(
-        "Helvetica", 10), state="readonly")
+    # input_date = ttk.Combobox(mainPage, width=38, font=(
+    #     "Helvetica", 10), state="readonly")
+    input_date=tk.Entry(mainPage, width=40, font=("Helvetica", 10))
+    start_date = date(2021, 12, 19).strftime("%d/%m/%Y")
+    end_date = date(2021,12,24).strftime("%d/%m/%Y")
     date_time_now = datetime.now().strftime("%d/%m/%Y")
     data_time_yesterday = (datetime.now()-timedelta(1)).strftime("%d/%m/%Y")
     data_time_previous = (datetime.now()-timedelta(2)).strftime("%d/%m/%Y")
-    input_date['value'] = (
-        date_time_now, data_time_yesterday, data_time_previous)
-    input_date.current(0)
+    # input_date['value'] = (
+    #     date_time_now, data_time_yesterday, data_time_previous)
+    # input_date.current(0)
     but_search = tk.Button(mainPage, text="Search", width=10, command=Search)
     lbl_result = tk.Label(mainPage, text="Result", font=(
         "Helvetica", 13, "bold"), fg='black')  # Hàm search
-    lbl_note = tk.Label(mainPage, text=f'Note: You can just choose a date from {data_time_previous} to {date_time_now}.', font=(
+    lbl_note = tk.Label(mainPage, text=f'Note: You can type a date from {start_date} to {end_date}, today.', font=(
         "Helvetica", 10, "bold"), fg='black')
     lbl_provinceresult = tk.Label(mainPage, text="Province:", font=(
         "Helvetica", 13, "bold"), fg='black')
