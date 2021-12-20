@@ -13,7 +13,7 @@ Other: `bs4` `schedule` `pillow`
 
 
 ## How to use
-Intall:
+Intall
 
 - `pip install tkinter`
 
