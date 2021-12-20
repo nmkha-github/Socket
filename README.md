@@ -7,9 +7,9 @@ Project search information about COVID-19 in Viet Nam
 ## Install
 Programming language: `Python`
 
-Main lib: `tkinter` `request`
+Main libs: `tkinter` `request`
 
-Other: `bs4` `schedule` `pillow`
+Others: `bs4` `schedule` `pillow`
 
 
 ## How to use
