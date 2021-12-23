@@ -3,7 +3,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from datetime import date, datetime
-abspath = os.path.abspath(__file__) #Sửa lỗi path
+abspath = os.path.abspath(__file__) 
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 Wiki_URL = 'https://vi.wikipedia.org/wiki/B%E1%BA%A3n_m%E1%BA%ABu:D%E1%BB%AF_li%E1%BB%87u_%C4%91%E1%BA%A1i_d%E1%BB%8Bch_COVID-19/S%E1%BB%91_ca_nhi%E1%BB%85m_theo_t%E1%BB%89nh_th%C3%A0nh_t%E1%BA%A1i_Vi%E1%BB%87t_Nam#cite_note-1'
@@ -67,8 +67,7 @@ def SearchData(province, date):
     except:
         return "Date not found!"
 
-# Nhiệm vụ: lấy dữ liệu từ thirty web về và tạo thành list dữ liệu các tỉnh
-# Sử dụng thư viện BeautifulSoup để biến HTML thành cây obj, lọc dữ liệu
+
 def get_API():
     HTMLtext = requests.get(Wiki_URL).text
     soup = BeautifulSoup(HTMLtext, 'html.parser')
@@ -85,7 +84,9 @@ def get_API():
             'newCases': row[3].string[:-1],
         })
     return covid_data
-def get_VietTat():  #Lấy chữ viết tắt
+
+
+def get_VietTat():  
     HTMLtext = requests.get(VietTat_URL).text
     soup = BeautifulSoup(HTMLtext, 'html.parser')
     table = soup.find('table', attrs={'class': 'wikitable'})
@@ -158,6 +159,3 @@ def SignUp(username, password):
 
         return "Sign up successfully! (" + username + ")"
     return "Sign up unsuccessfully! (Username exists)"
-# testcase='Hồ Chí Minh'
-# print(formatText(testcase))
-# print(SearchData(testcase,'20211208'))
