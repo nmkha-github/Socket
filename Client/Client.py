@@ -22,7 +22,8 @@ def center(app, width, height):
     return app
 
 
-def exit(page):  
+def exit(page):
+    page.destroy()
     sys.exit()
 
 
