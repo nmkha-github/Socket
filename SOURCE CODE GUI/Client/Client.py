@@ -9,11 +9,11 @@ from tkinter import *
 from tkinter.ttk import *
 from PIL import ImageTk, Image  # Install Pillow
 from datetime import datetime, timedelta,date
-abspath = os.path.abspath(__file__) #Sửa lỗi path
+abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
-def center(app, width, height):  # Center app screen
+def center(app, width, height): 
     screen_width = app.winfo_screenwidth()
     screen_height = app.winfo_screenheight()-200
     x = (screen_width/2) - (width/2)
@@ -22,8 +22,7 @@ def center(app, width, height):  # Center app screen
     return app
 
 
-def exit(page):  # function tắt
-    # Socket gửi request exit
+def exit(page):  
     sys.exit()
 
 
@@ -101,9 +100,6 @@ def disconnectServer(page):
 
 def tempFuncion():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # request = "Reconnect"
-    # client.sendall(request.encode('utf8'))
-    # print(client.recv(1024).decode('utf8'))
 
 
 def Reconnect():
@@ -156,7 +152,7 @@ def send_account_password(username, password):
 
 def login():
     global username
-    username = input_user_login.get()  # Để tạo Hi, username trong màn hình chính
+    username = input_user_login.get() 
     password = input_pass_login.get()
     if(username == ""):
         lbl_loginalert["text"] = "Please type a username"
@@ -254,7 +250,6 @@ def register():  # Socket đăng ký
         print(client.recv(1024).decode('utf8'))
         send_account_password(username, password)
         reply = client.recv(1024).decode('utf8')
-        # Dùng socket check tài khoản mật khẩu
         lbl_registeralert["text"] = reply
         return
     except:
@@ -268,7 +263,6 @@ def RegistrationPage():
     registrationPage = Toplevel()
     registrationPage.title("COVID 19 VIETNAM INFORMATION")
     registrationPage = center(registrationPage, 450, 180)
-    # registrationPage.geometry("400x180")
     registrationPage.resizable(width=False, height=False)
     lbl_login = tk.Label(registrationPage, text="REGISTER",
                          font=("Helvetica", 13, "bold"), fg='black')
@@ -380,15 +374,12 @@ def MainPage():
     global input_date
     input_date = ttk.Combobox(mainPage, width=38, font=(
          "Helvetica", 10))
-    #input_date=tk.Entry(mainPage, width=40, font=("Helvetica", 10))
     start_date = date(2021, 12, 19).strftime("%d/%m/%Y")
     end_date = date(2021,12,24).strftime("%d/%m/%Y")
     date_time_now = datetime.now().strftime("%d/%m/%Y")
     data_time_yesterday = (datetime.now()-timedelta(1)).strftime("%d/%m/%Y")
     data_time_previous = (datetime.now()-timedelta(2)).strftime("%d/%m/%Y")
     valueDate=[date_time_now]
-    # input_date['value'] = (
-    #     date_time_now, data_time_yesterday, data_time_previous)
     delta = timedelta(days=1)
     temp_date=date(2021, 12, 19)
     temp1_date=date(2021, 12, 24)
