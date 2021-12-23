@@ -74,7 +74,7 @@ def handle_client(conn, addr):
     isReconnected = False
     while running:
         try:
-            request = conn.recv(1024).decode('utf8')  # Nhận request liên tục
+            request = conn.recv(1024).decode('utf8') 
             if running == False:
                 break
             print(len(request))
@@ -105,8 +105,6 @@ def handle_client(conn, addr):
             if request == "Search":
                 send_accepted_request(conn, request)
                 province, date = receive_province_date(conn)
-                # handle cái string date một chút
-                # sau này tùy vào code client mà sửa lại sau
                 date_list = date.split("/")
                 if len(date_list) == 3:
                     date = date_list[2]
@@ -137,7 +135,7 @@ def handle_client(conn, addr):
     conn.close()
 
 
-# xử lí đa luồng
+
 print("Server: ", s.getsockname())
 
 my_clients = []
@@ -158,7 +156,7 @@ def live_server():
 #
 
 
-def center(app, width, height):  # Center app screen
+def center(app, width, height):
     screen_width = app.winfo_screenwidth()
     screen_height = app.winfo_screenheight()-200
     x = (screen_width/2) - (width/2)
@@ -167,7 +165,7 @@ def center(app, width, height):  # Center app screen
     return app
 
 
-def left(app, width, height):  # left top app screen
+def left(app, width, height): 
     app.geometry(f'{width}x{height}+{0}+{0}')
     return app
 
