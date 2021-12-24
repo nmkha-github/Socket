@@ -31,7 +31,7 @@ Run python file
 ## Database
 Data about COVID information of provinces in Viet Nam (total cases, total deaths, new cases).
 
-Database available from 15/12/2021 to 24/12/2021 and days which you run the server.
+Database is available from 15/12/2021 to 24/12/2021 and days which you run the server.
 ## Acknowledgements
  - Computer Networking
  - [Python](https://www.python.org/)
