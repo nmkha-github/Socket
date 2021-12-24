@@ -32,7 +32,7 @@ Run python file
 Data about COVID information of provinces in Viet Nam (total cases, total deaths, new cases).
 
 Database is available from 15/12/2021 to 24/12/2021 and days which you run the server.
-## Acknowledgements
+## Knowledge
  - Computer Networking
  - [Python](https://www.python.org/)
  - [Python Socket](https://docs.python.org/3/library/socket.html)
