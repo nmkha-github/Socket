@@ -85,6 +85,7 @@ def runClient():
     but_connect = tk.Button(app, text="CONNECT",
                             width=20, command=ConnectServer)
     app.bind('<Return>', lambda e: ConnectServer())  # Bấm enter
+    app.protocol("WM_DELETE_WINDOW", lambda: exit(app))
     but_connect.pack(pady=6)
     lbl_alert.pack()
     app.mainloop()
@@ -138,6 +139,7 @@ def ServerDisconnectedPage():
     exitBtn = tk.Button(disPage, text="Exit", font=(
         "Helvetica", 10, "bold"), fg='black', command=lambda: exit(disPage))
     exitBtn.place(width=80, height=30, x=235, y=350)
+    disPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
     disPage.mainloop()
 
 
@@ -304,7 +306,7 @@ def RegistrationPage():
     but_register.grid(row=6, column=1)
     but_disconnect.grid(row=7, column=0)
     registrationPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
-
+    
 
 def send_date_province(date, province):
     client.sendall(date.encode('utf8'))
