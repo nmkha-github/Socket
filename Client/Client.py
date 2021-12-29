@@ -378,7 +378,7 @@ def MainPage():
     input_date = ttk.Combobox(mainPage, width=38, font=(
          "Helvetica", 10))
     start_date = date(2021, 12, 19).strftime("%d/%m/%Y")
-    end_date = date(2021,12,24).strftime("%d/%m/%Y")
+    end_date = date(2021,12,29).strftime("%d/%m/%Y")
     date_time_now = datetime.now().strftime("%d/%m/%Y")
     data_time_yesterday = (datetime.now()-timedelta(1)).strftime("%d/%m/%Y")
     data_time_previous = (datetime.now()-timedelta(2)).strftime("%d/%m/%Y")
