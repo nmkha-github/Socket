@@ -139,7 +139,7 @@ def ServerDisconnectedPage():
     exitBtn = tk.Button(disPage, text="Exit", font=(
         "Helvetica", 10, "bold"), fg='black', command=lambda: exit(disPage))
     exitBtn.place(width=80, height=30, x=235, y=350)
-    disPage.protocol("WM_DELETE_WINDOW", lambda: exit(app))
+    disPage.protocol("WM_DELETE_WINDOW", lambda: exit(disPage))
     disPage.mainloop()
 
 
